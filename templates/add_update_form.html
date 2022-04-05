@@ -1,0 +1,32 @@
+{%extends 'parts/base.html' %}
+{%block title%}
+{%if update%} تعديل {{type}} {%else %} اضافة{{type}}{%endif%}
+{%endblock title%}
+{%block body%}
+<div class="container">
+    <ol class="breadcrumb my-4">
+        <li class="breadcrumb-item active"><h1>{%if update%}تعديل {{type}} {%else %} اضافة{{type}}{%endif%}
+        </h1></li>
+    </ol>
+        <form id="myForm" method="POST" novalidate>
+            {%csrf_token%}
+            {%include 'parts/form.html'%}
+            {%if not update%}
+            <br>
+            <div class="form-group">
+                <label for="id_check">اضافة اخر:</label>
+                    <input type="checkbox" name="add_another" class="form-check-input" required id="id_check">  
+                            <div class="invalid-feedback">This field is required.</div>
+            </div>
+            <hr>
+            {%endif%}
+            <a class="btn btn-danger" href="{{suc_url}}">رجوع</a>
+            <button type="submit" style="width:100px" class="btn btn-success">اضافة</button>
+        </form>
+        {% if form.errors %}
+            <p>{{form.errors}}</p>
+        {%endif%}
+
+</div>
+{%endblock body%}
+

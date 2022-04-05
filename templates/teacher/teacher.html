@@ -1,0 +1,42 @@
+{%extends 'parts/base.html' %}
+
+{%block title%} الموظفين {%endblock title%}
+{%block body%}    
+<div class="container">
+        <ol class="breadcrumb my-4">
+            <li class="breadcrumb-item active"><h1>المحفظين</h1></li>
+        </ol>
+        <a class="btn btn-success"href="{%url 'teacher_create'%}">اضافة محفظ</a>
+        <hr>
+        <table class="table">
+            <thead class="thead-white">
+            <tr style="background-color: steelblue;">
+                <th>اسم المحفظ</th>
+                <th>الرقم القومى</th>
+                <th>العنوان</th>
+                <th>رقم التليفون</th>
+                <th>رقم الهاتف المنزلى</th>
+                <th>التعديل</th>
+                <th>الحذف</th>
+
+            </tr>
+            </thead>
+            <tbody>
+                {% for teacher in teachers %}
+                <tr>
+                    <td class="w3-bar-item w3-button"><a href="{%url 'teacher_details' teacher.id%}"> {{teacher}}</a></td>
+                    <td> {{teacher.n_id}}</td>
+                    <td> {{teacher.address}}</td>
+                    <td> {{teacher.phone}}</td>
+                    <td> {{teacher.home_number}}</td>
+                    <td> <a href="{%url 'teacher_update' pk=teacher.pk %}">تعديل</a></td>
+                    <td> <a href="{%url 'teacher_delete' pk=teacher.pk %}">حذف</a></td>
+                    {% comment %} <td> <a href="{%url 'manager_update' manager.pk%}">تعديل</a></td> {% endcomment %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+{%endblock body%}

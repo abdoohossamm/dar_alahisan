@@ -1,0 +1,40 @@
+{%extends 'parts/base.html' %}
+
+{%block title%}الطلاب {%endblock title%}
+{%block body%}    
+<div class="container">
+        <ol class="breadcrumb my-4">
+            <li class="breadcrumb-item active"><h1>الطلاب</h1></li>
+        </ol>
+        <a class="btn btn-success"href="{%url 'student_create'%}">اضافة طالب</a>
+        <hr>
+        <table class="table">
+            <thead class="thead-white">
+            <tr style="background-color: steelblue;">
+                <th>اسم الطالب</th>
+                <th>الرقم القومى</th>
+                <th>العنوان</th>
+                <th>رقم التليفون</th>
+                <th>رقم الهاتف المنزلى</th>
+                <th>التعديل</th>
+                <th>الحذف</th>
+            </tr>
+            </thead>
+            <tbody>
+                {% for student in students %}
+                <tr>
+                    <td><a href="{%url 'student_details' student.pk%}"> {{student}}</a></td>
+                    <td> {{student.n_id}}</td>
+                    <td> {{student.address}}</td>
+                    <td> {{student.phone}}</td>
+                    <td> {{student.home_number}}</td>
+                    <td> <a href="{%url 'student_update' student.pk %}">تعديل</a></td>
+                    <td> <a href="{%url 'student_delete' student.pk%}">حذف</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+{%endblock body%}

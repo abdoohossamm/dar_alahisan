@@ -1,0 +1,42 @@
+{%extends 'parts/base.html' %}
+
+{%block title%} الموظفين {%endblock title%}
+{%block body%}    
+<div class="container">
+        <ol class="breadcrumb my-4">
+            <li class="breadcrumb-item active"><h1>الموظفين</h1></li>
+        </ol>
+        <a class="btn btn-success"href="{%url 'manager_create'%}">اضافة موظف</a>
+        <hr>
+        <table class="table">
+            <thead class="thead-white">
+            <tr style="background-color: steelblue;">
+                <th>اسم الموظف</th>
+                <th>الرقم القومى</th>
+                <th>العنوان</th>
+                <th>رقم التليفون</th>
+                <th>رقم الهاتف المنزلى</th>
+                <th>الراتب</th>
+                <th>التعديل</th>
+                <th>الحذف</th>
+            </tr>
+            </thead>
+            <tbody>
+                {% for manager in managers %}
+                <tr>
+                    <td><a href=""> {{manager}}</a></td>
+                    <td> {{manager.n_id}}</td>
+                    <td> {{manager.address}}</td>
+                    <td> {{manager.phone}}</td>
+                    <td> {{manager.home_number}}</td>
+                    <td> {{manager.salary}}</td>
+                    <td> <a href="{%url 'manager_update' manager.pk %}">تعديل</a></td>
+                    <td> <a href="{%url 'manager_delete' manager.pk%}">حذف</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+{%endblock body%}

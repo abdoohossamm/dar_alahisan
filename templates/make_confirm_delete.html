@@ -1,0 +1,15 @@
+{% extends "parts/base.html" %}
+
+{% block body %}
+
+<div class="container">
+<h1> حذف {{type}} </h1>
+<p>هل انت متاكد من حذف ال{{type}}</p>: {{ model }}؟</p>
+
+<form action="" method="POST">
+  {% csrf_token %}
+  <input type="submit" value="Yes, delete.">
+  <input type="submit" onclick="window.location=' {{suc_url}}' ; return false;" value="Cancel">
+</form>
+</div>
+{% endblock %}

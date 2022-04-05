@@ -1,0 +1,66 @@
+{%extends 'parts/base.html' %}
+{%load poll_extras%}
+{%block title%} بيانات المحفظ {{teacher.name}} {%endblock title%}
+{%block body%}    
+<div class="container">
+        <ol class="breadcrumb my-4">
+            <li class="breadcrumb-item active"><h1> بيانات المحفظ {{teacher.name}}</h1></li>
+        </ol>
+        
+        <table class="table">
+            <thead class="thead-white">
+            <tr style="background-color: steelblue;">
+                <th>الايام</th>
+                <th>عدد الحلقات</th>
+                <th>عدد الطلاب بالحلقة</th>
+                <th>اضافة حلقة</th>
+                <th>اضافة طالب بالحلقة</th>
+            </tr>
+            </thead>
+            <tbody>
+                {%for day in days%}
+                <tr>
+                    <td style="background-color: steelblue; font-size: 16px; color:rgb(233, 230, 230);">
+                        <a href=""> {{day}}</a>
+                    </td>
+                    <td> 
+                        {%for session in day|get_sessions_day:teacher.id%}
+                            {{session|format_session}}
+                            <hr>
+                        {%endfor%}
+                    </td>
+
+                    <td> 
+                        {%for session in day|get_sessions_day:teacher.id%}
+                        {{session|get_students_session}}
+                        <hr>
+                        {%endfor%}
+                    </td>
+                    <td> </td>
+                    <td> </td>
+                    <td>
+                        {%for session in day|get_sessions_day:teacher.id%}
+                        {%if session != 'لا يوجد'%}
+                        <a href="{% url 'session_update' pk=session.pk next=suc_url%}">تعديل</a>
+                        {%endif%}
+                        <hr>
+                        {%endfor%} 
+                    </td>
+                    <td> 
+                        {%for session in day|get_sessions_day:teacher.id%}
+                        {%if session != 'لا يوجد'%}
+                        <a href="{%url 'session_delete' pk=session.pk next=suc_url%}">حذف</a>
+                        {%endif%}
+
+                        <hr>
+                        {%endfor%} 
+                    </td> 
+                </tr>
+                {% endfor %}
+                
+            </tbody>
+        </table>
+    </div>
+
+
+{%endblock body%}

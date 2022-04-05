@@ -1,0 +1,76 @@
+{%load static %}
+{%load poll_extras%}
+
+{%if user.is_authenticated%}
+  <div class="w3-sidebar w3-bar-block w3-light-grey w3-card" style="width:13%;">
+    <h2>مرحباً {{user}}</h2>
+    <hr>
+    <a href="{%url 'index'%}" class="w3-bar-item w3-button">الصفحة الرئيسية</a>
+    <a href="{%url 'today'%}" class="w3-bar-item w3-button">جدول اليوم</a>
+    {%if user.is_superuser%}
+      <a href="/admin" class="w3-bar-item w3-button">لوحة المسؤول</a>
+    {% endif %}
+    <button class="w3-button w3-block w3-left-align" onclick="myAccFunc('demoAcc')">
+      الموظفين<img src="{%static 'icons/angle-arrow-down.png'%}" style="width:10px;">
+    </button>
+    <div id="demoAcc" class="w3-hide w3-white w3-card">
+      <a href="{%url 'manager'%}" class="w3-bar-item w3-button">عرض الموظفين</a>
+      <a href="{%url 'manager_create'%}" class="w3-bar-item w3-button">اضافة موظف</a>
+      <a href="#" class="w3-bar-item w3-button">الدخول الخروج</a>
+    </div>
+    <button class="w3-button w3-block w3-left-align" onclick="myAccFunc('demoAcc2')">
+      المحفظين<img src="{%static 'icons/angle-arrow-down.png'%}" style="width:10px;">
+    </button>
+    <div id="demoAcc2" class="w3-hide w3-white w3-card">
+      <a href="{%url 'teacher'%}" class="w3-bar-item w3-button">عرض المحفظين</a>
+      <a href="{%url 'teacher_create'%}" class="w3-bar-item w3-button">اضافة محفظ</a>
+      <a href="#" class="w3-bar-item w3-button">الدخول الخروج</a>
+    </div>
+    <button class="w3-button w3-block w3-left-align" onclick="myAccFunc('demoAcc3')">
+      الحلقات <img src="{%static 'icons/angle-arrow-down.png'%}" style="width:10px;">
+    </button>
+    <div id="demoAcc3" class="w3-hide w3-white w3-card">
+      <a href="{%url 'session'%}" class="w3-bar-item w3-button">عرض الحلقات</a>
+      <a href="{%url 'session_create'%}" class="w3-bar-item w3-button">اضافة حلقة</a>
+      <a href="#" class="w3-bar-item w3-button">الدخول الخروج</a>
+    </div>
+    <button class="w3-button w3-block w3-left-align" onclick="myAccFunc('demoAcc4')">
+      الطلاب <img src="{%static 'icons/angle-arrow-down.png'%}" style="width:10px;">
+    </button>
+    <div id="demoAcc4" class="w3-hide w3-white w3-card">
+      <a href="{%url 'student'%}" class="w3-bar-item w3-button">عرض الطلاب</a>
+      <a href="{%url 'student_create'%}" class="w3-bar-item w3-button">اضافة طالب</a>
+      <a href="#" class="w3-bar-item w3-button">الدخول الخروج</a>
+    </div>
+    <button class="w3-button w3-block w3-left-align" onclick="myAccFunc('demoAcc5')">
+      الدخول الخروج <img src="{%static 'icons/angle-arrow-down.png'%}" style="width:10px;">
+    </button>
+    <div id="demoAcc5" class="w3-hide w3-white w3-card">
+      <a href="{%url 'student'%}" class="w3-bar-item w3-button">الموظفين</a>
+      <a href="{%url 'student_create'%}" class="w3-bar-item w3-button">المحفظين</a>
+      <a href="#" class="w3-bar-item w3-button">الطلاب</a>
+    </div>
+    <a href="#" class="w3-bar-item w3-button">Link 2</a>
+    <a href="#" class="w3-bar-item w3-button">Link 3</a>
+  <hr>
+    <a href="{%url 'logout'%}" class="w3-bar-item w3-button">تسجيل الخروج</a>
+    <p style="text-align:center">{% now "jS F Y H:i" %}</p>
+  </div>
+
+
+
+  <script>
+    function myAccFunc(element_id) {
+      var x = document.getElementById(element_id);
+      if (x.className.indexOf("w3-show") == -1) {
+        x.className += " w3-show";
+        x.previousElementSibling.className += " w3-green";
+      } else { 
+        x.className = x.className.replace(" w3-show", "");
+        x.previousElementSibling.className = 
+        x.previousElementSibling.className.replace(" w3-green", "");
+      }
+    }
+  </script>
+{%endif %}
+

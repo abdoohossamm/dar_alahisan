@@ -1,0 +1,14 @@
+{%extends 'parts/base.html' %}
+
+{%block title%} Login {%endblock title%}
+{%block body%}
+<div class="container">
+    <h1 style="margin-top:10%; color:steelblue;">تسجيل الدخول</h1>
+    <form method="post" novalidate style="margin-top:5%;">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{next}}">
+        {%include 'parts/form.html'%}
+        <button type='submit' class="btn btn-primary">Login</button>
+    </form>
+</div>
+{%endblock body%}

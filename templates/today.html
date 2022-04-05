@@ -1,0 +1,27 @@
+{% extends "parts/base.html" %}
+{%block title%} الصفحة الرئيسية {%endblock title%}
+{%block body%}
+<div class=container>
+    <h1>جدول يوم {{day_name}}</h1>
+    <div class="row">
+        <div class="col-md-9">
+            <div class="card card-body h-100 border-info" id="profile-wrapper">
+                <h2>الحلقات اليوم {{sessions.count}}</h2>
+                <hr>
+                {% for session in sessions%}
+                <h5>المحفظ {{session.teacher}} غرفة {{session.name}} الساعة {{session.time|time:"H:i"}}</h5>
+                {%endfor%}
+            </div>
+        </div>        
+        <div class="col-md-3">
+            <div class="card card-body h-100 border-info" id="profile-wrapper">
+                <h2>احصاءات اليوم </h2>
+                <hr>
+                <h5>عدد الطلاب {{student_count}}</h5>
+                <h5>عدد المحفظين {{teacher_count}}</h5>
+            </div>
+        </div>
+        
+    </div>
+</div>
+{%endblock body%}

@@ -1,0 +1,24 @@
+{%load static %}
+<html dir="rtl" lang="ar">
+    
+<head>
+    <meta charset="UTF-8">
+    <title>{%block title%}{%endblock title%}</title>
+    <link rel="icon" type="image/png" href="{%static 'list.png'%}">
+    <link rel="stylesheet" href="{%static 'css/navbar.css'%}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/base.css'%}">
+    <link rel="stylesheet" href="{%static 'css/footer.css' %}">
+</head>
+
+<body style="background-color: rgb(223, 223, 223); ">
+    {% include 'parts/navbar.html'%}
+    <div class="content" style="margin-right: 13%;">
+
+    {%block body%}
+
+    {%endblock body%}
+</div>
+</body>
+
+</html>

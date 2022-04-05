@@ -1,0 +1,44 @@
+{%extends 'parts/base.html' %}
+{%load poll_extras%}
+{%block title%} الحلقات {%endblock title%}
+{%block body%}    
+<div class="container">
+        <ol class="breadcrumb my-4">
+            <li class="breadcrumb-item active"><h1>الحلقات</h1></li>
+        </ol>
+        <a class="btn btn-success"href="{%url 'session_create'%}">اضافة حلقة</a>
+        <hr>
+        <table class="table">
+            <thead class="thead-white">
+            <tr style="background-color: steelblue;">
+                <th>اليوم</th>
+                <th>الساعة</th>
+                <th>المحفظ</th>
+                <th>اسم الغرفة</th>
+                <th>عدد الطلاب</th>
+                <th>اضافة طالب</th>
+                <th>التعديل</th>
+                <th>الحذف</th>
+            </tr>
+            </thead>
+            <tbody>
+                {% for session in sessions %}
+                <tr>
+                    <td><a href=""> {{session.day}}</a></td>
+                    <td> {{session.time|time:"H:i"}}</td>
+                    <td> {{session.teacher}}</td>
+                    <td> {%if session.name is None %} غير محددة {%else%}{{session.name}}{%endif%}</td>
+                    <td> {{session|students_number}}</td>
+                    <td> <a href="{%url 'student_session_create' session_pk=session.pk %}">اضافة</a></td>
+
+                    <td> <a href="{%url 'session_update' session.pk%}">تعديل</a></td>
+                    <td> <a href="{%url 'session_delete' session.pk%}">حذف</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+    </div>
+
+
+{%endblock body%}
