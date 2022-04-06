@@ -37,7 +37,7 @@ def get_students_session(session):
 
 @register.filter(name= 'students_number')
 def students_number(session):
-    return StudentSessions.objects.filter(_session= session).count()
+    return StudentSessions.objects.filter(session= session).count()
 
 
 

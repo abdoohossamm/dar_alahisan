@@ -16,13 +16,13 @@ class StudentSessionCreate(View):
     student = ''
     session = ''
     initial = {
-            '_student': student,
-            '_session': session
+            'student': student,
+            'session': session
                }
     
     def get(self, request, student_pk=None, session_pk=None):
-        self.initial['_student'] = student_pk
-        self.initial['_session'] = session_pk
+        self.initial['student'] = student_pk
+        self.initial['session'] = session_pk
         ctx = {
             'form': self.form(initial=self.initial),
             'suc_url': self.success_url,

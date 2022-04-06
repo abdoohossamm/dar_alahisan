@@ -22,7 +22,7 @@ class TeacherDetailsView(LoginRequiredMixin, View):
     def get(self, request, pk):
         teacher = get_object_or_404(self.model, pk=pk)
         session_ = Session.objects.filter(teacher=pk)
-        days = Day.objects.all()
+        days = Day.objects.all().order_by('id')
         success_url = reverse_lazy('teacher_details', kwargs={'pk':teacher.pk})
         ctx = {
             'teacher': teacher,
