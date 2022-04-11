@@ -29,7 +29,7 @@ def get_students_session(session):
         return 0
     counter = 0
     for student_session in StudentSessions.objects.all():
-        if str(student_session._session) == str(session):
+        if str(student_session.session) == str(session):
             counter +=1
     return counter
 

@@ -51,7 +51,7 @@ class Session(models.Model):
     class Meta:
         unique_together = ['day', 'time', 'teacher']
     def __str__(self):
-        return (f'{self.teacher.name} غرفة {self.name} يوم {self.day} الساعة {self.time}')
+        return (f'{self.teacher.name} غرفة {self.name} يوم {self.day} الساعة {self.time}') # type: ignore
     
     
 class Student(models.Model):
@@ -70,6 +70,6 @@ class StudentSessions(models.Model):
     class Meta:
         unique_together = ['student', 'session']
     def __str__(self):
-        return f'{self.student.name}, {self.session.teacher}, {self.session.time}, {self.session.name} '
+        return f'{self.student.name}, {self.session.teacher}, {self.session.time}, {self.session.name} '  # type: ignore
 # class Transaction(models.Model):
     
