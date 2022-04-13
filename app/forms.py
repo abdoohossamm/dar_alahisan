@@ -63,17 +63,6 @@ class StudentSessionsForm(ModelForm):
         model = StudentSessions
         fields = '__all__'
         labels = {
-            '_student': ('الطالب'),
-            '_session': ('الحلقة')
+            'student': ('الطالب'),
+            'session': ('الحلقة')
         }
-# class ManagerForm(ModelForm):
-#     class Meta:
-#         model = Manager
-#         fields = '__all__'
-#         labels = {
-#             'name': ('الاسم'),
-#             'n_id': ('الرقم القومى'),
-#             'address': ('العنوان'),
-#             'phone': ('رقم التليفون'),
-#             'home_number': ('التليفون الارضي')
-#         }

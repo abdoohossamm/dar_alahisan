@@ -2,13 +2,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from django.db import models
 from django import forms
+from .functions import check_suc_url
 
 
-def check_suc_url(next, success_url):
-    if next == '':
-        return success_url
-    else:
-        return next
 
 
 '''
@@ -20,20 +16,24 @@ class CRUDCreate(View):
     success_url = ''
     type=""
     form = forms.ModelForm
-    
-    def get(self, request):
+    initial = {}
+    def get(self, request, next='', **initial):
+        for k, v in initial.items():
+            self.initial[k] = [v]
+        self.success_url = check_suc_url(next, self.success_url)
+        print(self.initial)
         ctx = {
-            'form': self.form(),
+            'form': self.form(initial=self.initial),
             'suc_url': self.success_url,
             'type': self.type
             }
         return render(request, self.template, ctx)
 
 
-    def post(self, request):
+    def post(self, request,next='', **initial):
         form = self.form(request.POST)
-
         print(request.POST)
+        self.success_url = check_suc_url(next, self.success_url)
         if not form.is_valid():
             ctx = {
                 'form': form,
@@ -44,7 +44,8 @@ class CRUDCreate(View):
         form.save()
         try:
             if request.POST['add_another'] == 'on':
-                form = self.form(initial={"add_another": True})
+                merge = {"add_another": [True]}
+                form = self.form(initial={**self.initial, **merge})
                 ctx = {
                 'form': form,
                 'suc_url': self.success_url,

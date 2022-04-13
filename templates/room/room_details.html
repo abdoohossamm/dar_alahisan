@@ -1,0 +1,41 @@
+{%extends 'parts/base.html' %}
+
+{%block title%} الموظفين {%endblock title%}
+{%block body%}    
+<div class="container">
+        <ol class="breadcrumb my-4">
+            <li class="breadcrumb-item active"><h1>الغرف</h1></li>
+        </ol>
+        <form id="myForm" method="POST" novalidate>
+            {%csrf_token%}
+            {%include 'parts/form.html'%}
+            <button type="submit" style="width:100px" class="btn btn-success">اضافة</button>
+        </form>
+        {% if form.errors %}
+            <p>{{form.errors}}</p>
+        {%endif%}
+        <hr>
+        <table class="table">
+            <thead class="thead-white">
+            <tr style="background-color: steelblue;">
+                <th>كود الغرفة</th>
+                <th>اسم الغرفة</th>
+                <th>تعديل</th>
+                <th>الحذف</th>
+            </tr>
+            </thead>
+            <tbody>
+                {% for room in rooms %}
+                <tr>
+                    <td>{{room.pk}}</td>
+                    <td>{{room}}</td>
+                    <td> <a href="{%url 'room_update' room.pk%}">التعديل</a></td>
+                    <td> <a href="{%url 'room_delete' room.pk%}">حذف</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+{%endblock body%}

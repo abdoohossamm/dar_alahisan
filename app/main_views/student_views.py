@@ -4,7 +4,7 @@ from django.views import View
 from django.urls import reverse_lazy
 from ..models import Student, StudentSessions,Day,Session
 from ..forms import StudentForm
-from ..generic_views import CRUDCreate,CRUDUpdate, CRUDDelete
+from ..generic_views import CRUDCreate,CRUDUpdate, CRUDDelete  # type: ignore
 
 '''
 Student views

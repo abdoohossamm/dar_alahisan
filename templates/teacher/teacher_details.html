@@ -11,10 +11,12 @@
             <thead class="thead-white">
             <tr style="background-color: steelblue;">
                 <th>الايام</th>
-                <th>عدد الحلقات</th>
+                <th>الحلقات</th>
                 <th>عدد الطلاب بالحلقة</th>
                 <th>اضافة حلقة</th>
                 <th>اضافة طالب بالحلقة</th>
+                <th>تعديل الحلقة</th>
+                <th>حذف الحلقة</th>
             </tr>
             </thead>
             <tbody>
@@ -36,8 +38,20 @@
                         <hr>
                         {%endfor%}
                     </td>
-                    <td> </td>
-                    <td> </td>
+                    <td> 
+                        {%for session in day|get_sessions_day:teacher.id%}
+                        <a href="{% url 'session_create'  day=day.pk teacher=teacher.pk next=suc_url%}">اضافة حلقة</a>
+                        <hr>
+                        {%endfor%} 
+                    </td>
+                    <td>
+                        {%for session in day|get_sessions_day:teacher.id%}
+                        {%if session != 'لا يوجد'%}
+                        <a href="{% url 'student_session_create' session=session.pk next=suc_url%}">اضافة طالب بالحلقة</a>
+                        {%endif%}
+                        <hr>
+                        {%endfor%} 
+                    </td>
                     <td>
                         {%for session in day|get_sessions_day:teacher.id%}
                         {%if session != 'لا يوجد'%}
