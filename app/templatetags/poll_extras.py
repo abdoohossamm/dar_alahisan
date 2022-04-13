@@ -1,6 +1,8 @@
 import re
-from app.models import Session, Day, Manager,StudentSessions
+from app.models import Session, StudentSessions
 from django import template
+
+
 register = template.Library()
 
 @register.filter(name= 'get_sessions_day')
@@ -38,7 +40,3 @@ def get_students_session(session):
 @register.filter(name= 'students_number')
 def students_number(session):
     return StudentSessions.objects.filter(session= session).count()
-
-
-
-        

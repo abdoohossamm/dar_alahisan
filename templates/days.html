@@ -1,0 +1,30 @@
+{% extends "parts/base.html" %}
+{%load day_filters%}
+{%block title%} الصفحة الرئيسية {%endblock title%}
+{%block body%}
+<div class=container>
+    {%for day in days %}
+    <h1>جدول يوم <span style="color:steelblue">{{day.day}}</span></h1>
+    <div class="row">
+        <div class="col-md-9">
+            <div class="card card-body h-100 border-info" id="profile-wrapper">
+                <h2>الحلقات اليوم {{day.id|session_count}}</h2>
+                <hr>
+                {% for session in day.id|session_today%}
+                <h5>المحفظ {{session.teacher}} غرفة {{session.name}} الساعة {{session.time|time:"H:i"}}</h5>
+                {%endfor%}
+            </div>
+        </div>        
+        <div class="col-md-3">
+            <div class="card card-body h-100 border-info" id="profile-wrapper">
+                <h2>احصاءات اليوم </h2>
+                <hr>
+                <h5>عدد الطلاب {{day.id|student_count}}</h5>
+                <h5>عدد المحفظين {{day.id|teacher_count}}</h5>
+            </div>
+        </div>
+        
+    </div>
+    {%endfor%}
+</div>
+{%endblock body%}

@@ -46,7 +46,16 @@ class StudentSessionCreate(View):
         return redirect(self.success_url)
 
 
-class TodayView(LoginRequiredMixin, View):
+class DaysView(LoginRequiredMixin, View):
+    template = 'days.html'
+    day = Day.objects.all()
+    def get(self, request):
+        ctx = {
+            'days': self.day,
+        }
+        return render(request, self.template,ctx)
+
+class MainView(LoginRequiredMixin, View):
     template = 'today.html'
     day_name = day_in_arabic()[0]
     day_id = Day.objects.get(day=day_name)
@@ -59,8 +68,8 @@ class TodayView(LoginRequiredMixin, View):
         student_count = StudentSessions.objects.filter(session= i).count()
         student_counter += student_count
     for teach in teacher:
-        for i in session:
-            if session.filter(teacher=teach) and teach not in teachers: 
+        for i in session_today:
+            if session_today.filter(teacher=teach) and teach not in teachers: 
                 teachers.append(teach)
     def get(self, request):
         ctx = {
@@ -70,9 +79,4 @@ class TodayView(LoginRequiredMixin, View):
             'teacher_count': len(self.teachers)
         }
         return render(request, self.template,ctx)
-
-class MainView(LoginRequiredMixin, View):
-    template = 'main.html'
-    def get(self, request):
-        return render(request, self.template)
 

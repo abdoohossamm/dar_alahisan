@@ -6,7 +6,7 @@
     <h2>مرحباً {{user}}</h2>
     <hr>
     <a href="{%url 'index'%}" class="w3-bar-item w3-button">الصفحة الرئيسية</a>
-    <a href="{%url 'today'%}" class="w3-bar-item w3-button">جدول اليوم</a>
+    <a href="{%url 'days'%}" class="w3-bar-item w3-button">الجدول الاسبوعى</a>
     {%if user.is_superuser%}
       <a href="/admin" class="w3-bar-item w3-button">لوحة المسؤول</a>
     {% endif %}

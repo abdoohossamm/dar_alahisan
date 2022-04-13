@@ -16,3 +16,4 @@ def day_in_arabic() -> list:
         if day == k:
             return v
     return []
+
