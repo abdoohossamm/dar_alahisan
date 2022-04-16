@@ -2,10 +2,10 @@ from django.db import models
 from django.core import validators
 from django.core.exceptions import ValidationError
 
-# Create your models here.
 def only_int(value):
     if value.isdigit()==False:
         raise ValidationError('تم وضع حروف بدلا من ارقام برجاء التصحيح')
+
 
 class Manager(models.Model):
     name = models.CharField(max_length=150, verbose_name='اسم الموظف')
@@ -39,10 +39,14 @@ class Room(models.Model):
     name = models.CharField(max_length=150, unique=True)
     def __str__(self):
         return self.name
+    
+    
 class Day(models.Model):
     day = models.CharField(max_length=15, unique=True)
     def __str__(self):
         return self.day
+    
+    
 class Session(models.Model):
     day = models.ForeignKey(Day, related_name='session', on_delete=models.PROTECT)
     time = models.TimeField()
@@ -63,7 +67,9 @@ class Student(models.Model):
     class Meta:
         unique_together = ['n_id', 'phone']
     def __str__(self):
-        return self.name
+        return f'{self.name} {self.pk}'
+    
+    
 class StudentSessions(models.Model):
     student = models.ForeignKey(Student, related_name='student_session', on_delete=models.CASCADE)
     session = models.ForeignKey(Session, related_name='student_session', on_delete=models.CASCADE)
@@ -71,5 +77,4 @@ class StudentSessions(models.Model):
         unique_together = ['student', 'session']
     def __str__(self):
         return f'{self.student.name}, {self.session.teacher}, {self.session.time}, {self.session.name} '  # type: ignore
-# class Transaction(models.Model):
-    
+

@@ -4,12 +4,12 @@
 
 <div class="container">
 <h1> حذف {{type}} </h1>
-<p>هل انت متاكد من حذف ال{{type}}</p>: {{ model }}؟</p>
+<h2>هل انت متاكد من حذف ال{{type}}: {{ model }}؟</h2>
 
-<form action="" method="POST">
+<form style= 'margin-right:13%;' action="" method="POST">
   {% csrf_token %}
-  <input type="submit" value="Yes, delete.">
-  <input type="submit" onclick="window.location=' {{suc_url}}' ; return false;" value="Cancel">
+  <input style='width:100px'class="btn btn-success" type="submit" value="نعم">
+  <input style='width:100px' class="btn btn-danger" type="submit" onclick="window.location='{{suc_url}}' ; return false;" value="لا">
 </form>
 </div>
 {% endblock %}

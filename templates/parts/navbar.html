@@ -2,8 +2,11 @@
 {%load poll_extras%}
 
 {%if user.is_authenticated%}
-  <div class="w3-sidebar w3-bar-block w3-light-grey w3-card" style="width:13%;">
-    <h2>مرحباً {{user}}</h2>
+  {% comment %}
+    SideBar
+  {% endcomment %}
+  <div id="#navbar" class="w3-sidebar w3-bar-block w3-card" style="width:12%;">
+    <h2>دار الحمد</h2>
     <hr>
     <a href="{%url 'index'%}" class="w3-bar-item w3-button">الصفحة الرئيسية</a>
     <a href="{%url 'days'%}" class="w3-bar-item w3-button">الجدول الاسبوعى</a>
@@ -57,7 +60,28 @@
     <a href="{%url 'logout'%}" class="w3-bar-item w3-button">تسجيل الخروج</a>
     <p style="text-align:center">{% now "jS F Y H:i" %}</p>
   </div>
+  
 
+  {% comment %}
+    NavBar
+  {% endcomment %}
+  <nav class="navbar navbar-expand-lg navbar-light bg-light" style="margin-right:12%;"dir="ltr">
+    <a class="navbar-brand" href="#" dir="rtl">مرحباً {{user}}</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+      <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+
+      </ul>
+      <form class="form-inline my-2 my-lg-0" style1="display: flex !important;">
+        {% csrf_token %}
+        <input class="form-control mr-sm-2" type="search" placeholder="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+      </form>
+    </div>
+  </nav>
 
 
   <script>
@@ -70,6 +94,13 @@
         x.className = x.className.replace(" w3-show", "");
         x.previousElementSibling.className = 
         x.previousElementSibling.className.replace(" w3-green", "");
+      }
+    }
+    function hide_show_nav(element_id) {
+      if (element_id.style.display == 'block') {
+        document.getElementById(element_id).style.display = 'none';
+      }else{
+        document.getElementById(element_id).style.display = 'block';
       }
     }
   </script>

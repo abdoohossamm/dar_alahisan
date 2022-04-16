@@ -2,14 +2,14 @@
 
 {%block title%} الموظفين {%endblock title%}
 {%block body%}    
-<div class="container">
+<div  >
         <ol class="breadcrumb my-4">
             <li class="breadcrumb-item active"><h1>الموظفين</h1></li>
         </ol>
         <a class="btn btn-success"href="{%url 'manager_create'%}">اضافة موظف</a>
         <hr>
-        <table class="table">
-            <thead class="thead-white">
+        <table class="table table-striped table-bordered">
+            <thead class="thead-light">
             <tr style="background-color: steelblue;">
                 <th>اسم الموظف</th>
                 <th>الرقم القومى</th>
@@ -30,8 +30,8 @@
                     <td> {{manager.phone}}</td>
                     <td> {{manager.home_number}}</td>
                     <td> {{manager.salary}}</td>
-                    <td> <a href="{%url 'manager_update' manager.pk %}">تعديل</a></td>
-                    <td> <a href="{%url 'manager_delete' manager.pk%}">حذف</a></td>
+                    <td> <a class="btn btn-warning" href="{%url 'manager_update' manager.pk %}">تعديل</a></td>
+                    <td> <a class="btn btn-danger" href="{%url 'manager_delete' manager.pk%}">حذف</a></td>
                 </tr>
                 {% endfor %}
             </tbody>

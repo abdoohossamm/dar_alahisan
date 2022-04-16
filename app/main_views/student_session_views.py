@@ -9,7 +9,7 @@ from ..generic_views import CRUDCreate,CRUDUpdate, CRUDDelete
 from ..functions import check_suc_url
 
 
-class StudentSessionCreate(CRUDCreate):
+class StudentSessionCreate(LoginRequiredMixin,CRUDCreate):
     template = 'add_update_form.html'
     success_url = reverse_lazy('session')
     type='طالب بالنسبة لحلقة'

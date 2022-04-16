@@ -2,7 +2,7 @@
 
 {%block title%} الموظفين {%endblock title%}
 {%block body%}    
-<div class="container">
+<div  >
         <ol class="breadcrumb my-4">
             <li class="breadcrumb-item active"><h1>الغرف</h1></li>
         </ol>
@@ -29,8 +29,8 @@
                 <tr>
                     <td>{{room.pk}}</td>
                     <td>{{room}}</td>
-                    <td> <a href="{%url 'room_update' room.pk%}">التعديل</a></td>
-                    <td> <a href="{%url 'room_delete' room.pk%}">حذف</a></td>
+                    <td> <a class="btn btn-warning" href="{%url 'room_update' room.pk%}">التعديل</a></td>
+                    <td> <a class="btn btn-danger" href="{%url 'room_delete' room.pk%}">حذف</a></td>
                 </tr>
                 {% endfor %}
             </tbody>

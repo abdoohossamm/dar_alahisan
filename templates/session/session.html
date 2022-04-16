@@ -2,14 +2,14 @@
 {%load poll_extras%}
 {%block title%} الحلقات {%endblock title%}
 {%block body%}    
-<div class="container">
+<div >
         <ol class="breadcrumb my-4">
             <li class="breadcrumb-item active"><h1>الحلقات</h1></li>
         </ol>
         <a class="btn btn-success"href="{%url 'session_create'%}">اضافة حلقة</a>
         <hr>
-        <table class="table">
-            <thead class="thead-white">
+        <table class="table table-striped">
+            <thead class="thead-light">
             <tr style="background-color: steelblue;">
                 <th>اليوم</th>
                 <th>الساعة</th>
@@ -30,11 +30,11 @@
                     <td> {{session.teacher}}</td>
                     <td> {%if session.name is None %} غير محددة {%else%}{{session.name}}{%endif%}</td>
                     <td> {{session|students_number}}</td>
-                    <td> <a href="{%url 'student_session_create' session=session.pk next=suc_url %}">عرض الطلاب</a></td>
-                    <td> <a href="{%url 'student_session_create' session=session.pk next=suc_url %}">اضافة</a></td>
+                    <td> <a class="btn btn-primary" href="{%url 'student_session_create' session=session.pk next=suc_url %}">عرض الطلاب</a></td>
+                    <td> <a class="btn btn-success" href="{%url 'student_session_create' session=session.pk next=suc_url %}">اضافة</a></td>
 
-                    <td> <a href="{%url 'session_update' session.pk%}">تعديل</a></td>
-                    <td> <a href="{%url 'session_delete' session.pk%}">حذف</a></td>
+                    <td> <a class="btn btn-warning" href="{%url 'session_update' session.pk%}">تعديل</a></td>
+                    <td> <a class="btn btn-danger" href="{%url 'session_delete' session.pk%}">حذف</a></td>
                 </tr>
                 {% endfor %}
             </tbody>

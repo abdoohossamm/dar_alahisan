@@ -2,6 +2,9 @@
 
 {%block title%} Login {%endblock title%}
 {%block body%}
+{% if user.is_authenticated %}
+<meta http-equiv = "refresh" content = "0; url = {%url 'index'%}" />
+{%else%}
 <div class="container">
     <h1 style="margin-top:10%; color:steelblue;">تسجيل الدخول</h1>
     <form method="post" novalidate style="margin-top:5%;">
@@ -11,4 +14,6 @@
         <button type='submit' class="btn btn-primary">Login</button>
     </form>
 </div>
+{% endif %}
+
 {%endblock body%}

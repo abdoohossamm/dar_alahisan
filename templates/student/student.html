@@ -2,15 +2,16 @@
 
 {%block title%}الطلاب {%endblock title%}
 {%block body%}    
-<div class="container">
+<div>
         <ol class="breadcrumb my-4">
             <li class="breadcrumb-item active"><h1>الطلاب</h1></li>
         </ol>
         <a class="btn btn-success"href="{%url 'student_create'%}">اضافة طالب</a>
         <hr>
-        <table class="table">
-            <thead class="thead-white">
+        <table class="table table-striped table-bordered">
+            <thead class="thead-light">
             <tr style="background-color: steelblue;">
+                <th>الكود</th>
                 <th>اسم الطالب</th>
                 <th>الرقم القومى</th>
                 <th>العنوان</th>
@@ -23,13 +24,14 @@
             <tbody>
                 {% for student in students %}
                 <tr>
+                    <td><a href="{%url 'student_details' student.pk%}"> {{student.pk}}</a></td>
                     <td><a href="{%url 'student_details' student.pk%}"> {{student}}</a></td>
                     <td> {{student.n_id}}</td>
                     <td> {{student.address}}</td>
                     <td> {{student.phone}}</td>
                     <td> {{student.home_number}}</td>
-                    <td> <a href="{%url 'student_update' student.pk %}">تعديل</a></td>
-                    <td> <a href="{%url 'student_delete' student.pk%}">حذف</a></td>
+                    <td> <a class="btn btn-warning" href="{%url 'student_update' student.pk %}">تعديل</a></td>
+                    <td> <a class="btn btn-danger" href="{%url 'student_delete' student.pk%}">حذف</a></td>
                 </tr>
                 {% endfor %}
             </tbody>
