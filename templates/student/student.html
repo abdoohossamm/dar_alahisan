@@ -25,7 +25,7 @@
                 {% for student in students %}
                 <tr>
                     <td><a href="{%url 'student_details' student.pk%}"> {{student.pk}}</a></td>
-                    <td><a href="{%url 'student_details' student.pk%}"> {{student}}</a></td>
+                    <td><a href="{%url 'student_details' student.pk%}"> {{student.name}}</a></td>
                     <td> {{student.n_id}}</td>
                     <td> {{student.address}}</td>
                     <td> {{student.phone}}</td>

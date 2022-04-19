@@ -9,16 +9,19 @@
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/base.css'%}">
     <link rel="stylesheet" href="{%static 'css/footer.css' %}">
+    <link rel="stylesheet" href="{%static 'css/w3.css' %}">
 </head>
 
-<body class="text-right" style="background-color: rgb(216, 216, 216); ">
+<body class="text-right" style="background-color: rgb(233, 233, 233); ">
     {% include 'parts/navbar.html'%}
-    <div class="content " style="margin-right:12%">
+    <div class="content " style="margin:0 13% 20px 5%">
 
     {%block body%}
 
     {%endblock body%}
 </div>
+<script src="{%static 'js/bootstrap.bundle.min.js'%}" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
 </body>
 
 </html>

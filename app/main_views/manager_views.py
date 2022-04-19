@@ -5,6 +5,7 @@ from django.urls import reverse_lazy
 from ..models import Manager
 from ..forms import ManagerForm
 from ..generic_views import CRUDCreate,CRUDUpdate, CRUDDelete
+from django.db.models import Q
 
 '''
 Manager views
@@ -13,12 +14,23 @@ Manager views
 class ManagerDetailsView(LoginRequiredMixin,View):
     template = 'manager/manager_details.html'
     def get(self, request):
-        manager = Manager.objects.all()
+        strval =  request.GET.get("search", False)
+        if strval :
+            query = Q(name__icontains=strval) 
+            query.add(Q(n_id__icontains=strval), Q.OR)
+            query.add(Q(pk__icontains=strval), Q.OR)
+            query.add(Q(address__icontains=strval), Q.OR)
+            query.add(Q(phone__icontains=strval), Q.OR)
+            query.add(Q(home_number__icontains=strval), Q.OR)
+            manager = Manager.objects.filter(query).select_related()
+        else :
+            manager = Manager.objects.all()
         ctx = {
-            'managers': manager
+            'managers': manager,
+            'search': strval,
+            'search_bar': True
             }
         return render(request, self.template, ctx)
-
 
 class ManagerCreate(LoginRequiredMixin, CRUDCreate):
     template = 'add_update_form.html'

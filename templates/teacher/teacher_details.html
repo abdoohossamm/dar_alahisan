@@ -7,12 +7,13 @@
             <li class="breadcrumb-item active"><h1> بيانات المحفظ {{teacher.name}}</h1></li>
         </ol>
         
-        <table class="table table-bordered">
+        <table class="table table-striped table-bordered">
             <thead class="thead-light">
-            <tr style="background-color: steelblue;">
+            <tr>
                 <th>الايام</th>
                 <th>الحلقات</th>
                 <th>عدد الطلاب بالحلقة</th>
+                <th>عرض الطلاب</th>
                 <th>اضافة حلقة</th>
                 <th>اضافة طالب بالحلقة</th>
                 <th>تعديل الحلقة</th>
@@ -40,11 +41,17 @@
                     </td>
                     <td> 
                         {%for session in day|get_sessions_day:teacher.id%}
+                        {%if session != 'لا يوجد'%}
+                        <a class="btn btn-primary" href="{% url 'student_session_create' session=session.pk next=suc_url%}">عرض الطلاب</a>
+                        {%endif%}
+                        <hr>
+                        {%endfor%} 
+                    </td>                    
+                    <td> 
                         <a class="btn btn-success" href="{% url 'session_create'  day=day.pk teacher=teacher.pk next=suc_url%}">اضافة حلقة</a>
                         <hr>
                         
 
-                        {%endfor%} 
                     </td>
                     <td>
                         {%for session in day|get_sessions_day:teacher.id%}

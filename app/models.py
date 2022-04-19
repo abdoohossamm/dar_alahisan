@@ -13,7 +13,7 @@ class Manager(models.Model):
     address= models.CharField(max_length= 150)
     phone= models.CharField(max_length= 12, validators= [validators.MinLengthValidator(11, 'رقم الهاتف يجب ان يكون 11رقم'), only_int])
     home_number = models.CharField(max_length= 12, validators= [validators.MinLengthValidator(7, 'رقم هاتف المنزل يجب ان يكون 7 ارقام'), only_int])
-    salary =models.DecimalField(max_digits=10, decimal_places=2)
+    salary =models.DecimalField(max_digits=10, decimal_places=2, blank= True, null=True)
     class Meta:
         unique_together = ['n_id', 'phone']
     def __str__(self):

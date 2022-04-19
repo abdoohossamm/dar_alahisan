@@ -5,6 +5,7 @@ from django.urls import reverse_lazy
 from ..models import Student, StudentSessions,Day,Session
 from ..forms import StudentForm
 from ..generic_views import CRUDCreate,CRUDUpdate, CRUDDelete  # type: ignore
+from django.db.models import Q
 
 '''
 Student views
@@ -13,11 +14,24 @@ Student views
 class StudentView(LoginRequiredMixin,View):
     template = 'student/student.html'
     def get(self, request):
-        student = Student.objects.all()
+        strval =  request.GET.get("search", False)
+        if strval :
+            query = Q(name__icontains=strval) 
+            query.add(Q(n_id__icontains=strval), Q.OR)
+            query.add(Q(pk__icontains=strval), Q.OR)
+            query.add(Q(address__icontains=strval), Q.OR)
+            query.add(Q(phone__icontains=strval), Q.OR)
+            query.add(Q(home_number__icontains=strval), Q.OR)
+            student = Student.objects.filter(query).select_related()
+        else :
+            student = Student.objects.all()
         ctx = {
-            'students': student
+            'students': student,
+            'search': strval,
+            'search_bar': True
             }
         return render(request, self.template, ctx)
+
 
 class StudentDetailsView(LoginRequiredMixin, View):
     template = 'student/student_details.html'

@@ -11,6 +11,7 @@
         <table class="table table-striped">
             <thead class="thead-light">
             <tr style="background-color: steelblue;">
+                <th>الكود</th>
                 <th>اليوم</th>
                 <th>الساعة</th>
                 <th>المحفظ</th>
@@ -25,9 +26,10 @@
             <tbody>
                 {% for session in sessions %}
                 <tr>
+                    <td>{{session.pk}}</td>
                     <td>{{session.day}}</td>
                     <td> {{session.time|time:"H:i"}}</td>
-                    <td> {{session.teacher}}</td>
+                    <td> {{session.teacher.name}}</td>
                     <td> {%if session.name is None %} غير محددة {%else%}{{session.name}}{%endif%}</td>
                     <td> {{session|students_number}}</td>
                     <td> <a class="btn btn-primary" href="{%url 'student_session_create' session=session.pk next=suc_url %}">عرض الطلاب</a></td>
