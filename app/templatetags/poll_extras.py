@@ -5,8 +5,9 @@ from django import template
 
 register = template.Library()
 
+
 @register.filter(name= 'get_sessions_day')
-def get_sessions_day(day, teacher=1):
+def get_sessions_day(day, teacher=1) -> list:
     result = list()
     for session in Session.objects.filter(day=day):
         if session.teacher.id == teacher:
@@ -18,7 +19,7 @@ def get_sessions_day(day, teacher=1):
 
 
 @register.filter(name= 'format_session')
-def format_session(session):
+def format_session(session) -> str :
     if isinstance(session, str):
             return session
     return f'غرفة {session.name} الساعة {session.time}'
@@ -40,3 +41,11 @@ def get_students_session(session):
 @register.filter(name= 'students_number')
 def students_number(session):
     return StudentSessions.objects.filter(session= session).count()
+
+@register.filter(name='range') 
+def times(number:int):
+    try:
+        num = int(number)
+    except:
+        return None
+    return range(1, number+1)

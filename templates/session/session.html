@@ -1,48 +1,41 @@
-{%extends 'parts/base.html' %}
+{%extends 'parts/detail_temp.html' %}
 {%load poll_extras%}
+
+{% block pagename %}
+الحلقات
+{% endblock pagename %}
 {%block title%} الحلقات {%endblock title%}
-{%block body%}    
-<div >
-        <ol class="breadcrumb my-4">
-            <li class="breadcrumb-item active"><h1>الحلقات</h1></li>
-        </ol>
-        <a class="btn btn-success"href="{%url 'session_create'%}">اضافة حلقة</a>
-        <hr>
-        <table class="table table-striped">
-            <thead class="thead-light">
-            <tr style="background-color: steelblue;">
-                <th>الكود</th>
-                <th>اليوم</th>
-                <th>الساعة</th>
-                <th>المحفظ</th>
-                <th>اسم الغرفة</th>
-                <th>عدد الطلاب</th>
-                <th>عرض الطلاب</th>
-                <th>اضافة طالب</th>
-                <th>التعديل</th>
-                <th>الحذف</th>
-            </tr>
-            </thead>
-            <tbody>
-                {% for session in sessions %}
-                <tr>
-                    <td>{{session.pk}}</td>
-                    <td>{{session.day}}</td>
-                    <td> {{session.time|time:"H:i"}}</td>
-                    <td> {{session.teacher.name}}</td>
-                    <td> {%if session.name is None %} غير محددة {%else%}{{session.name}}{%endif%}</td>
-                    <td> {{session|students_number}}</td>
-                    <td> <a class="btn btn-primary" href="{%url 'student_session_create' session=session.pk next=suc_url %}">عرض الطلاب</a></td>
-                    <td> <a class="btn btn-success" href="{%url 'student_session_create' session=session.pk next=suc_url %}">اضافة</a></td>
+{% block thead %}
+  
+    <tr style="background-color: steelblue;">
+        <th>الكود</th>
+        <th>اليوم</th>
+        <th>الساعة</th>
+        <th>المحفظ</th>
+        <th>اسم الغرفة</th>
+        <th>عدد الطلاب</th>
+        <th>عرض الطلاب</th>
+        <th>اضافة طالب</th>
+        <th>التعديل</th>
+        <th>الحذف</th>
+    </tr>
+{% endblock thead %}
+{% block tbody %}
+  
+    {% for session in page_obj %}
+        <tr>
+            <td>{{session.pk}}</td>
+            <td>{{session.day}}</td>
+            <td> {{session.time|time:"H:i"}}</td>
+            <td> {{session.teacher.name}}</td>
+            <td> {%if session.name is None %} غير محددة {%else%}{{session.name}}{%endif%}</td>
+            <td> {{session|students_number}}</td>
+            <td> <a class="btn btn-primary" href="{%url 'student_session_create' session=session.pk next=suc_url %}">عرض الطلاب</a></td>
+            <td> <a class="btn btn-success" href="{%url 'student_session_create' session=session.pk next=suc_url %}">اضافة</a></td>
 
-                    <td> <a class="btn btn-warning" href="{%url 'session_update' session.pk%}">تعديل</a></td>
-                    <td> <a class="btn btn-danger" href="{%url 'session_delete' session.pk%}">حذف</a></td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        
-    </div>
+            <td> <a class="btn btn-warning" href="{%url 'session_update' session.pk%}">تعديل</a></td>
+            <td> <a class="btn btn-danger" href="{%url 'session_delete' session.pk%}">حذف</a></td>
+        </tr>
+    {% endfor %}
+{% endblock tbody %}
 
-
-{%endblock body%}

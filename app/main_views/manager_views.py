@@ -6,32 +6,72 @@ from ..models import Manager
 from ..forms import ManagerForm
 from ..generic_views import CRUDCreate,CRUDUpdate, CRUDDelete
 from django.db.models import Q
+from django.core.paginator import Paginator
+from ..functions import ITEM_PER_PAGE
 
 '''
 Manager views
 4 views for detials, create, update and delete
 '''
+def search_model(request, item:int=10):
+    strval =  request.GET.get('search', False)
+    page_number = request.GET.get('page')
+    if strval :
+        query = Q(name__icontains=strval) 
+        query.add(Q(n_id__icontains=strval), Q.OR)
+        query.add(Q(pk__icontains=strval), Q.OR)
+        query.add(Q(address__icontains=strval), Q.OR)
+        query.add(Q(phone__icontains=strval), Q.OR)
+        query.add(Q(home_number__icontains=strval), Q.OR)
+        manager = Manager.objects.filter(query).select_related()
+        return {
+        'search': strval,
+        'managers': manager,
+        'page_obj': manager
+        }
+    else :
+        manager = Manager.objects.all()
+    paginator = Paginator(manager, item) # Show 25 contacts per page.
+    page_obj = paginator.get_page(page_number)
+    return {
+            'search': strval,
+            'managers': manager,
+            'page_obj': page_obj
+            }
+
 class ManagerDetailsView(LoginRequiredMixin,View):
     template = 'manager/manager_details.html'
+    success_url = reverse_lazy('manager')
+    type = 'موظف'
+    form = ManagerForm
     def get(self, request):
-        strval =  request.GET.get("search", False)
-        if strval :
-            query = Q(name__icontains=strval) 
-            query.add(Q(n_id__icontains=strval), Q.OR)
-            query.add(Q(pk__icontains=strval), Q.OR)
-            query.add(Q(address__icontains=strval), Q.OR)
-            query.add(Q(phone__icontains=strval), Q.OR)
-            query.add(Q(home_number__icontains=strval), Q.OR)
-            manager = Manager.objects.filter(query).select_related()
-        else :
-            manager = Manager.objects.all()
+        search = search_model(request, ITEM_PER_PAGE)
         ctx = {
-            'managers': manager,
-            'search': strval,
+            'managers': search['managers'],
+            'search': search['search'],
+            'page_obj': search['page_obj'],
+            'form': self.form(),
+            'type':self.type,
             'search_bar': True
             }
         return render(request, self.template, ctx)
-
+    
+    def post(self, request):
+        form = self.form(request.POST)
+        search = search_model(request, ITEM_PER_PAGE)
+        if not form.is_valid():
+            ctx = {
+                'managers': search['managers'],
+                'search': search['search'],
+                'page_obj': search['page_obj'],
+                'form': form,
+                'suc_url': self.success_url,
+                'type':self.type,
+                'search_bar': True
+                }
+            return render(request, self.template, ctx)
+        form.save()
+        return redirect(self.success_url)
 class ManagerCreate(LoginRequiredMixin, CRUDCreate):
     template = 'add_update_form.html'
     success_url = reverse_lazy('manager')

@@ -7,31 +7,76 @@ from ..models import Teacher, Session, Day, StudentSessions
 from ..forms import TeacherForm, SessionForm
 from ..generic_views import CRUDCreate,CRUDUpdate, CRUDDelete
 from django.db.models import Q
+from django.core.paginator import Paginator
+from ..functions import ITEM_PER_PAGE
 
 '''
 Teacher views
 '''    
+def search_model(request, item:int=10):
+    strval =  request.GET.get('search', False)
+    page_number = request.GET.get('page')
+    if strval :
+        query = Q(name__icontains=strval) 
+        query.add(Q(n_id__icontains=strval), Q.OR)
+        query.add(Q(pk__icontains=strval), Q.OR)
+        query.add(Q(address__icontains=strval), Q.OR)
+        query.add(Q(phone__icontains=strval), Q.OR)
+        query.add(Q(home_number__icontains=strval), Q.OR)
+        teacher = Teacher.objects.filter(query).select_related()
+        return {
+            'search': strval,
+            'teachers': teacher,
+            'page_obj': teacher
+        }
+    else :
+        teacher = Teacher.objects.all()
+    paginator = Paginator(teacher, item)
+    page_obj = paginator.get_page(page_number)
+    return {
+            'search': strval,
+            'teachers': teacher,
+            'page_obj': page_obj
+            }
+
+
 class TeachersView(LoginRequiredMixin, View):
     template = 'teacher/teacher.html'
+    form = TeacherForm
+    success_url = reverse_lazy('teacher')
+    type = 'محفظ'
+
     def get(self, request):
-        strval =  request.GET.get("search", False)
-        if strval :
-            query = Q(name__icontains=strval) 
-            query.add(Q(n_id__icontains=strval), Q.OR)
-            query.add(Q(pk__icontains=strval), Q.OR)
-            query.add(Q(address__icontains=strval), Q.OR)
-            query.add(Q(phone__icontains=strval), Q.OR)
-            query.add(Q(home_number__icontains=strval), Q.OR)
-            teacher = Teacher.objects.filter(query).select_related()
-        else :
-            teacher = Teacher.objects.all()
+        search = search_model(request, ITEM_PER_PAGE)
         ctx = {
-            'teachers': teacher,
-            'search': strval,
+            'teachers': search['teachers'],
+            'search': search['search'],
+            'page_obj': search['page_obj'],
+            'form': self.form(),
+            'suc_url': self.success_url,
+            'type':self.type,
             'search_bar': True
             }
         return render(request, self.template, ctx)
+    
+    def post(self, request):
+        form = self.form(request.POST)
+        search = search_model(request, ITEM_PER_PAGE)
+        
+        if not form.is_valid():
+            ctx = {
+                'teachers': search['teachers'],
+                'search': search['search'],
+                'page_obj': search['page_obj'],
+                'form': form,
+                'suc_url': self.success_url,
+                'type':self.type,
+                'search_bar': True
 
+                }
+            return render(request, self.template, ctx)
+        form.save()
+        return redirect(self.success_url)
 
 class TeacherDetailsView(LoginRequiredMixin, View):
     template = 'teacher/teacher_details.html'

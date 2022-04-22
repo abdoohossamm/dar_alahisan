@@ -1,9 +1,11 @@
 import datetime
+ITEM_PER_PAGE = 5
 def check_suc_url(next, success_url):
     if next == '':
         return success_url
     else:
         return next
+
 def day_in_arabic() -> list:
     now = datetime.datetime.now()
     day = now.strftime("%A")

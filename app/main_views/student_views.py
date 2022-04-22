@@ -6,32 +6,75 @@ from ..models import Student, StudentSessions,Day,Session
 from ..forms import StudentForm
 from ..generic_views import CRUDCreate,CRUDUpdate, CRUDDelete  # type: ignore
 from django.db.models import Q
-
+from django.core.paginator import Paginator
+from ..functions import ITEM_PER_PAGE
 '''
 Student views
 4 views for detials, create, update and delete
 '''
+def search_model(request, item:int=10):
+    strval =  request.GET.get("search", False)
+    page_number = request.GET.get('page')
+
+    if strval :
+        query = Q(name__icontains=strval) 
+        query.add(Q(n_id__icontains=strval), Q.OR)
+        query.add(Q(pk__icontains=strval), Q.OR)
+        query.add(Q(address__icontains=strval), Q.OR)
+        query.add(Q(phone__icontains=strval), Q.OR)
+        query.add(Q(home_number__icontains=strval), Q.OR)
+        student = Student.objects.filter(query).select_related()
+        return {
+            'search': strval,
+            'students': student,
+            'page_obj': student
+        }
+    else :
+        student = Student.objects.all()
+        paginator = Paginator(student, item)
+        page_obj = paginator.get_page(page_number)
+        return {
+        'search': strval,
+        'students': student,
+        'page_obj': page_obj
+        }
+
+
 class StudentView(LoginRequiredMixin,View):
     template = 'student/student.html'
+    form = StudentForm
+    success_url = reverse_lazy('student')
+    type = 'طالب'
     def get(self, request):
-        strval =  request.GET.get("search", False)
-        if strval :
-            query = Q(name__icontains=strval) 
-            query.add(Q(n_id__icontains=strval), Q.OR)
-            query.add(Q(pk__icontains=strval), Q.OR)
-            query.add(Q(address__icontains=strval), Q.OR)
-            query.add(Q(phone__icontains=strval), Q.OR)
-            query.add(Q(home_number__icontains=strval), Q.OR)
-            student = Student.objects.filter(query).select_related()
-        else :
-            student = Student.objects.all()
+        search = search_model(request, ITEM_PER_PAGE)
         ctx = {
-            'students': student,
-            'search': strval,
+            'students': search['students'],
+            'search': search['search'],
+            'page_obj': search['page_obj'],
+            'form': self.form(),
+            'suc_url': self.success_url,
+            'type':self.type,
             'search_bar': True
             }
         return render(request, self.template, ctx)
+    def post(self, request):
+        form = self.form(request.POST)
+        search = search_model(request, ITEM_PER_PAGE)
+        
+        if not form.is_valid():
+            ctx = {
+                'students': search['students'],
+                'search': search['search'],
+                'page_obj': search['page_obj'],
+                'form': form,
+                'suc_url': self.success_url,
+                'type':self.type,
+                'search_bar': True
 
+                }
+            return render(request, self.template, ctx)
+        form.save()
+        return redirect(self.success_url)
 
 class StudentDetailsView(LoginRequiredMixin, View):
     template = 'student/student_details.html'
@@ -53,6 +96,13 @@ class StudentDetailsView(LoginRequiredMixin, View):
         return render(request, self.template, ctx)
 
 
+
+
+
+
+'''
+CRUD Views
+'''
 class StudentCreate(LoginRequiredMixin, CRUDCreate):
     template = 'add_update_form.html'
     success_url = reverse_lazy('student')

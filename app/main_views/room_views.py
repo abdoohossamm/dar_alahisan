@@ -38,6 +38,11 @@ class RoomDetailsView(LoginRequiredMixin,View):
         form.save()
         return redirect(self.success_url)
 
+
+
+'''
+CRUD views
+'''
 class RoomCreate(LoginRequiredMixin, CRUDCreate):
     template = 'add_update_form.html'
     success_url = reverse_lazy('room')

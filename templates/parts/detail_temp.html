@@ -1,0 +1,60 @@
+{%extends 'parts/base.html' %}
+{%load poll_extras%}
+{% block title %}
+
+{% endblock title %}
+{%block body%}   
+<div >
+        <ol class="breadcrumb my-4">
+            <li class="breadcrumb-item active"><h1>  {% block pagename %}{% endblock pagename %}</h1></li>
+        </ol>
+        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#example-modal">
+            اضافة {{type}}
+        </button>
+        {%include 'parts/dialog_form.html'%}
+
+        <hr>
+        <table class="table table-striped table-bordered">
+            <thead class="thead-light">
+                {% block thead %}
+                
+                {% endblock thead %}
+            </thead>
+            <tbody>
+                {% block tbody %}
+                
+                {% endblock tbody %}
+            </tbody>
+        </table>
+    </div>
+    {% if not search %}
+    <ul class="pagination">
+        <li class="page-item" aria-current="page">
+            <a class="page-link" href="?page=1">First</a>
+        </li>
+        <li class="page-item {% if page_obj.has_previous %}{%else%}disabled{% endif %}">
+            <a class="page-link" href="{% if page_obj.has_previous %}?page={{ page_obj.previous_page_number }}{%else%}#{% endif %}" tabindex="-1" aria-disabled="true">Previous</a>
+        </li>
+
+
+        {% for page in page_obj.paginator.num_pages|range%}
+        {% if page_obj.number == page %}
+        <li class="page-item active" aria-current="page">
+            <a class="page-link" href="?page={{page}}">{{page}}</a>
+        </li>
+        {%else%}
+        <li class="page-item"><a class="page-link" href="?page={{page}}">{{page}}</a></li>
+        {% endif %}
+        
+        {% endfor %}
+        {% if page_obj.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+        </li>
+        <li class="page-item">
+        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        </li>
+        {% endif %}
+    </ul>
+    {% endif %}
+{%endblock body%}

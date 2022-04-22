@@ -1,42 +1,32 @@
-{%extends 'parts/base.html' %}
+{%extends 'parts/detail_temp.html' %}
 
 {%block title%}الطلاب {%endblock title%}
-{%block body%}    
-<div>
-        <ol class="breadcrumb my-4">
-            <li class="breadcrumb-item active"><h1>الطلاب</h1></li>
-        </ol>
-        <a class="btn btn-success"href="{%url 'student_create'%}">اضافة طالب</a>
-        <hr>
-        <table class="table table-striped table-bordered">
-            <thead class="thead-light">
-            <tr style="background-color: steelblue;">
-                <th>الكود</th>
-                <th>اسم الطالب</th>
-                <th>الرقم القومى</th>
-                <th>العنوان</th>
-                <th>رقم التليفون</th>
-                <th>رقم الهاتف المنزلى</th>
-                <th>التعديل</th>
-                <th>الحذف</th>
-            </tr>
-            </thead>
-            <tbody>
-                {% for student in students %}
-                <tr>
-                    <td><a href="{%url 'student_details' student.pk%}"> {{student.pk}}</a></td>
-                    <td><a href="{%url 'student_details' student.pk%}"> {{student.name}}</a></td>
-                    <td> {{student.n_id}}</td>
-                    <td> {{student.address}}</td>
-                    <td> {{student.phone}}</td>
-                    <td> {{student.home_number}}</td>
-                    <td> <a class="btn btn-warning" href="{%url 'student_update' student.pk %}">تعديل</a></td>
-                    <td> <a class="btn btn-danger" href="{%url 'student_delete' student.pk%}">حذف</a></td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-
-
-{%endblock body%}
+{% block pagename %}الطلاب{% endblock pagename %}
+{% block thead %}
+    <tr stye="background-color: steelblue;">
+        <th>الكود</th>
+        <th>اسم الطالب</th>
+        <th>الرقم القومى</th>
+        <th>العنوان</th>
+        <th>رقم التليفون</th>
+        <th>رقم الهاتف المنزلى</th>
+        <th>التعديل</th>
+        <th>الحذف</th>
+    </tr>
+{% endblock thead %}
+{% block tbody %}
+  
+<tbody>
+    {% for student in students %}
+    <tr>
+        <td><a href="{%url 'student_details' student.pk%}"> {{student.pk}}</a></td>
+        <td><a href="{%url 'student_details' student.pk%}"> {{student.name}}</a></td>
+        <td> {{student.n_id}}</td>
+        <td> {{student.address}}</td>
+        <td> {{student.phone}}</td>
+        <td> {{student.home_number}}</td>
+        <td> <a class="btn btn-warning" href="{%url 'student_update' student.pk %}">تعديل</a></td>
+        <td> <a class="btn btn-danger" href="{%url 'student_delete' student.pk%}">حذف</a></td>
+    </tr>
+    {% endfor %}
+{% endblock tbody %}

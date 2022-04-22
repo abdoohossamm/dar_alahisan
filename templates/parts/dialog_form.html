@@ -1,0 +1,42 @@
+<div class="modal" id="example-modal" tabindex="-1" aria-labelledby="example-modal-label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="example-modal-label">اضافة {{type}}</h5>
+            </div>
+            <div class="modal-body">
+                <form id="myForm" method="POST" novalidate>
+                        {%csrf_token%}
+                        {%include 'parts/form.html'%}
+                        <button type="submit" style="width:100px" class="btn btn-success">اضافة</button>
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">رجوع</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% if form.errors %}
+    <div class="modal show" id="example-modal" style="padding-left: 15px; display: block;" tabindex="-1" aria-labelledby="example-modal-label" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="example-modal-label">اضافة {{type}}</h5>
+                </div>
+                <div class="modal-body">
+                    <form id="myForm" method="POST" novalidate>
+                            {%csrf_token%}
+                            {%include 'parts/form.html'%}
+                            <button type="submit" style="width:100px" class="btn btn-success">اضافة</button>
+                    </form>
+                    {{form.errors}}
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-secondary" href="{{suc_url}}">رجوع</a>
+                </div>
+            </div>
+        </div>
+    </div> 
+{%endif%}

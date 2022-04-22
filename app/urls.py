@@ -12,7 +12,6 @@ urlpatterns = [
     # main views
     path('', views.MainView.as_view(), name='index'),
     path('days/', views.DaysView.as_view(), name='days'),
-    
     path('manager/', mv.ManagerDetailsView.as_view(), name='manager'),
     path('room/', rv.RoomDetailsView.as_view(), name='room'),
     path('student/', stv.StudentView.as_view(), name='student'),

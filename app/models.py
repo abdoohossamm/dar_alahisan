@@ -77,4 +77,3 @@ class StudentSessions(models.Model):
         unique_together = ['student', 'session']
     def __str__(self):
         return f'{self.student.name}, {self.session.teacher}, {self.session.time}, {self.session.name} '  # type: ignore
-

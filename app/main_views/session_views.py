@@ -7,8 +7,35 @@ from ..forms import SessionForm, StudentSessionsForm
 from ..generic_views import CRUDCreate,CRUDUpdate, CRUDDelete
 from ..functions import check_suc_url
 from django.db.models import Q
+from django.core.paginator import Paginator
+from ..functions import ITEM_PER_PAGE
 
-    
+
+def search_model(request, item:int=10):
+    strval =  request.GET.get("search", False)
+    page_number = request.GET.get('page')
+    if strval :
+        query = Q(day__day__icontains=strval) 
+        query.add(Q(pk__icontains=strval), Q.OR)
+        query.add(Q(time__icontains=strval), Q.OR)
+        query.add(Q(name__name__icontains=strval), Q.OR)
+        query.add(Q(teacher__name__icontains=strval), Q.OR)
+        session = Session.objects.filter(query).select_related().order_by('day')
+        return {
+            'search': strval,
+            'sessions': session,
+            'page_obj': session
+        }
+    else :
+        session = Session.objects.all().order_by('day')
+    paginator = Paginator(session, item) # Show 25 contacts per page.
+    page_obj = paginator.get_page(page_number)
+    return {
+            'search': strval,
+            'sessions': session,
+            'page_obj': page_obj
+            }
+
 '''
 Session views
 4 views for detials, create, update and delete
@@ -16,27 +43,41 @@ Session views
 class SessionView(LoginRequiredMixin,View):
     template = 'session/session.html'
     success_url = reverse_lazy('session')
+    form = SessionForm
+    type = 'حلقة'
     def get(self, request,next=''):
-        strval =  request.GET.get("search", False)
-        if strval :
-            query = Q(day__day__icontains=strval) 
-            query.add(Q(pk__icontains=strval), Q.OR)
-            query.add(Q(time__icontains=strval), Q.OR)
-            query.add(Q(name__name__icontains=strval), Q.OR)
-            query.add(Q(teacher__name__icontains=strval), Q.OR)
-            session = Session.objects.filter(query).select_related().order_by('day')
-        else :
-            session = Session.objects.all().order_by('day')
+        search = search_model(request, ITEM_PER_PAGE)
         student_sessions = StudentSessions.objects.all()
         ctx = {
-            'sessions': session,
-            'search': strval,
+            'sessions': search['sessions'],
+            'search': search['search'],
+            'page_obj':search['page_obj'],
+            'form': self.form(),
+            'type':self.type,
             'suc_url': self.success_url,
             'student_sessions': student_sessions,
             'search_bar': True
             }
         return render(request, self.template, ctx)
+    
+    def post(self, request):
+        form = self.form(request.POST)
+        search = search_model(request, ITEM_PER_PAGE)
+        
+        if not form.is_valid():
+            ctx = {
+                'sessions': search['sessions'],
+                'search': search['search'],
+                'page_obj': search['page_obj'],
+                'form': form,
+                'suc_url': self.success_url,
+                'type':self.type,
+                'search_bar': True
 
+                }
+            return render(request, self.template, ctx)
+        form.save()
+        return redirect(self.success_url)
 
 
 '''

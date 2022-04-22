@@ -6,15 +6,10 @@
         <ol class="breadcrumb my-4">
             <li class="breadcrumb-item active"><h1>الغرف</h1></li>
         </ol>
-        <form id="myForm" method="POST" novalidate>
-            {%csrf_token%}
-            {%include 'parts/form.html'%}
-            <button type="submit" style="width:100px" class="btn btn-success">اضافة</button>
-        </form>
-        {% if form.errors %}
-            <p>{{form.errors}}</p>
-        {%endif%}
-        <hr>
+        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#example-modal">
+            اضافة غرفة
+        </button>
+        {%include 'parts/dialog_form.html'%}        
         <table class="table">
             <thead class="thead-white">
             <tr style="background-color: steelblue;">
