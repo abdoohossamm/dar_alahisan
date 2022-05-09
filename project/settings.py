@@ -133,9 +133,12 @@ class Dev(Configuration):
         'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
         'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
     ]
+    
+# settings for production
 class Prod(Dev):
+    ALLOWED_HOSTS = ['abdoohossamm.pythonanywhere.com']
     DEBUG = False
-    SECRET_KEY = values.SecretValue()
+    # SECRET_KEY = values.SecretValue()
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
