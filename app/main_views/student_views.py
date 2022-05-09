@@ -8,9 +8,10 @@ from ..generic_views import CRUDCreate,CRUDUpdate, CRUDDelete  # type: ignore
 from django.db.models import Q
 from django.core.paginator import Paginator
 from ..functions import ITEM_PER_PAGE
+
 '''
-Student views
-4 views for detials, create, update and delete
+Functions for view.
+does not return web request or response.
 '''
 def search_model(request, item:int=10):
     strval =  request.GET.get("search", False)
@@ -39,7 +40,10 @@ def search_model(request, item:int=10):
         'page_obj': page_obj
         }
 
-
+'''
+Student views
+4 views for detials, create, update and delete
+'''
 class StudentView(LoginRequiredMixin,View):
     template = 'student/student.html'
     form = StudentForm

@@ -67,7 +67,7 @@ class Student(models.Model):
     class Meta:
         unique_together = ['n_id', 'phone']
     def __str__(self):
-        return f'{self.name} {self.pk}'
+        return f'{self.name}'
     
     
 class StudentSessions(models.Model):

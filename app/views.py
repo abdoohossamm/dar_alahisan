@@ -71,3 +71,5 @@ class MainView(LoginRequiredMixin, View):
         }
         return render(request, self.template,ctx)
 
+def _404_not_found(request):
+    return render(request, '404.html',)

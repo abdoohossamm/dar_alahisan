@@ -4,9 +4,6 @@ from django.db import models
 from django import forms
 from .functions import check_suc_url
 
-
-
-
 '''
 CRUD Views
 '''
@@ -91,7 +88,8 @@ class CRUDUpdate(View):
         form.save()
         
         return redirect(success_url)
-    
+
+
 class CRUDDelete(View):
     model = models.Model
     success_url = ''
@@ -116,6 +114,8 @@ class CRUDDelete(View):
         make.delete()
         
         return redirect(success_url)
+
+
 class StudentToSession(View):
     template = 'session/student_session.html'
     success_url = ''

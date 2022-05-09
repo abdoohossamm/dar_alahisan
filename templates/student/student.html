@@ -4,14 +4,14 @@
 {% block pagename %}الطلاب{% endblock pagename %}
 {% block thead %}
     <tr stye="background-color: steelblue;">
-        <th>الكود</th>
-        <th>اسم الطالب</th>
-        <th>الرقم القومى</th>
-        <th>العنوان</th>
-        <th>رقم التليفون</th>
-        <th>رقم الهاتف المنزلى</th>
-        <th>التعديل</th>
-        <th>الحذف</th>
+        <th scope="col">الكود</th>
+        <th scope="col">اسم الطالب</th>
+        <th scope="col">الرقم القومى</th>
+        <th scope="col">العنوان</th>
+        <th scope="col">رقم التليفون</th>
+        <th scope="col">رقم الهاتف المنزلى</th>
+        <th scope="col">التعديل</th>
+        <th scope="col">الحذف</th>
     </tr>
 {% endblock thead %}
 {% block tbody %}
@@ -30,3 +30,4 @@
     </tr>
     {% endfor %}
 {% endblock tbody %}
+

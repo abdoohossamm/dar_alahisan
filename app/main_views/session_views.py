@@ -11,6 +11,10 @@ from django.core.paginator import Paginator
 from ..functions import ITEM_PER_PAGE
 
 
+'''
+Functions for view.
+does not return web request or response.
+'''
 def search_model(request, item:int=10):
     strval =  request.GET.get("search", False)
     page_number = request.GET.get('page')

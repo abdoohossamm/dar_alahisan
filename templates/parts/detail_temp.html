@@ -4,7 +4,6 @@
 
 {% endblock title %}
 {%block body%}   
-<div >
         <ol class="breadcrumb my-4">
             <li class="breadcrumb-item active"><h1>  {% block pagename %}{% endblock pagename %}</h1></li>
         </ol>
@@ -14,19 +13,20 @@
         {%include 'parts/dialog_form.html'%}
 
         <hr>
-        <table class="table table-striped table-bordered">
-            <thead class="thead-light">
-                {% block thead %}
-                
-                {% endblock thead %}
-            </thead>
-            <tbody>
-                {% block tbody %}
-                
-                {% endblock tbody %}
-            </tbody>
-        </table>
-    </div>
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+                <thead class="thead-light">
+                    {% block thead %}
+                    
+                    {% endblock thead %}
+                </thead>
+                <tbody>
+                    {% block tbody %}
+                    
+                    {% endblock tbody %}
+                </tbody>
+            </table>
+        </div>
     {% if not search %}
     <ul class="pagination">
         <li class="page-item" aria-current="page">

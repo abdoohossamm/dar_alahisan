@@ -9,10 +9,6 @@ from django.db.models import Q
 from django.core.paginator import Paginator
 from ..functions import ITEM_PER_PAGE
 
-'''
-Manager views
-4 views for detials, create, update and delete
-'''
 def search_model(request, item:int=10):
     strval =  request.GET.get('search', False)
     page_number = request.GET.get('page')
@@ -39,6 +35,11 @@ def search_model(request, item:int=10):
             'page_obj': page_obj
             }
 
+
+'''
+Manager views
+4 views for detials, create, update and delete
+'''
 class ManagerDetailsView(LoginRequiredMixin,View):
     template = 'manager/manager_details.html'
     success_url = reverse_lazy('manager')
