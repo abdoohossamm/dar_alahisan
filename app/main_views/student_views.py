@@ -89,7 +89,7 @@ class StudentDetailsView(LoginRequiredMixin, View):
         session = Session.objects.filter(student_session__student=student)
         for se in session:
             print(se)
-        days = Day.objects.all()
+        days = Day.objects.all().order_by('id')
         success_url = reverse_lazy('student_details', kwargs={'pk':student.pk})
         ctx = {
             'student': student,

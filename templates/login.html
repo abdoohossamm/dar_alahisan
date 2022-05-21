@@ -3,7 +3,7 @@
 {%block title%} Login {%endblock title%}
 {%block body%}
 {% if user.is_authenticated %}
-<meta http-equiv = "refresh" content = "0; url = {%url 'index'%}" />
+        <meta http-equiv = "refresh" content = "0; url = {%url 'index'%}"/>
 {%else%}
 <div  style="margin-right: -13%">
     <section class=" container position-relative py-4 py-xl-5">

@@ -24,20 +24,20 @@ def search_model(request, item:int=10):
         query.add(Q(time__icontains=strval), Q.OR)
         query.add(Q(name__name__icontains=strval), Q.OR)
         query.add(Q(teacher__name__icontains=strval), Q.OR)
-        session = Session.objects.filter(query).select_related().order_by('day')
+        session = Session.objects.filter(query).select_related('name', 'teacher','day').order_by('day')
         return {
             'search': strval,
             'sessions': session,
             'page_obj': session
         }
     else :
-        session = Session.objects.all().order_by('day')
+        session = Session.objects.all().select_related('name', 'teacher','day').order_by('day')
     paginator = Paginator(session, item) # Show 25 contacts per page.
     page_obj = paginator.get_page(page_number)
     return {
             'search': strval,
             'sessions': session,
-            'page_obj': page_obj
+            'page_obj': page_obj,
             }
 
 '''
@@ -51,7 +51,6 @@ class SessionView(LoginRequiredMixin,View):
     type = 'حلقة'
     def get(self, request,next=''):
         search = search_model(request, ITEM_PER_PAGE)
-        student_sessions = StudentSessions.objects.all()
         ctx = {
             'sessions': search['sessions'],
             'search': search['search'],
@@ -59,7 +58,6 @@ class SessionView(LoginRequiredMixin,View):
             'form': self.form(),
             'type':self.type,
             'suc_url': self.success_url,
-            'student_sessions': student_sessions,
             'search_bar': True
             }
         return render(request, self.template, ctx)

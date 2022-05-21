@@ -66,3 +66,13 @@ class StudentSessionsForm(ModelForm):
             'student': ('الطالب'),
             'session': ('الحلقة')
         }
+    def __init__(self, *args, **kwargs):
+        try:
+            day = kwargs.pop('day')
+        except KeyError:
+            day = False
+        super(StudentSessionsForm, self).__init__(*args,**kwargs)
+        if day:
+            self.fields['session'].queryset = Session.objects.filter(day= day)  # type: ignore
+
+

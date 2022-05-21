@@ -23,7 +23,7 @@ def search_model(request, item:int=10):
         query.add(Q(address__icontains=strval), Q.OR)
         query.add(Q(phone__icontains=strval), Q.OR)
         query.add(Q(home_number__icontains=strval), Q.OR)
-        teacher = Teacher.objects.filter(query).select_related()
+        teacher = Teacher.objects.filter(query).select_related('sessions')
         return {
             'search': strval,
             'teachers': teacher,
@@ -83,7 +83,7 @@ class TeacherDetailsView(LoginRequiredMixin, View):
     model = Teacher
     def get(self, request, pk):
         teacher = get_object_or_404(self.model, pk=pk)
-        session = Session.objects.filter(teacher=pk)
+        session = Session.objects.filter(teacher=pk).select_related('session', 'sessions')
         days = Day.objects.all().order_by('id')
         success_url = reverse_lazy('teacher_details', kwargs={'pk':teacher.pk})
         ctx = {

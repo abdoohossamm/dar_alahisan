@@ -7,58 +7,64 @@
             <li class="breadcrumb-item active"><h1> بيانات الطالب {{student.name}}</h1></li>
         </ol>
         
-        <table class="table">
-            <thead class="thead-white">
-            <tr style="background-color: steelblue;">
+        <table class="table table-striped table-bordered">
+            <thead class="thead-light">
+            <tr>
                 <th scope="col">الايام</th>
-                <th scope="col">عدد الحلقات</th>
+                <th scope="col">اسم الحلقة</th>
+                <th scope="col">اسم المحفظ</th>
                 <th scope="col">عدد الطلاب بالحلقة</th>
-                <th scope="col">اضافة حلقة</th>
-                <th scope="col">اضافة طالب بالحلقة</th>
+                <th scope="col">اضافة الطالب الى حلقة</th>
+                <th scope="col">تغيير الحلقة</th>
+                <th scope="col">حذف الطالب من الحلقة</th>
             </tr>
             </thead>
             <tbody>
-                {% comment %} {%for day in days%}
+                {%for day in days%}
+                {%for session in day|get_sessions_day_student:student.id%}
                 <tr>
-                    <td style="background-color: steelblue; font-size: 16px; color:rgb(233, 230, 230);">
-                        <a href=""> {{day}}</a>
+                    <td style="background-color: #e9ecef;">
+                        {{day}}
                     </td>
-                    <td> 
-                        {%for session in day|get_sessions_day:teacher.id%}
-                            {{session|format_session}}
-                            <hr>
-                        {%endfor%}
+
+                    <td > 
+                        <p style="border: 1px solid transparent; padding: 0.53rem 0.75rem;">{{session.session|format_session}}</p>
+                        <hr>
+                    </td>                    
+                    
+                    <td > 
+                        <p style="border: 1px solid transparent; padding: 0.53rem 0.75rem;">{{session.session.teacher.name}}</p>
+                        <hr>
                     </td>
 
                     <td> 
-                        {%for session in day|get_sessions_day:teacher.id%}
-                        {{session|get_students_session}}
+                        <p style="border: 1px solid transparent; padding: 0.53rem 0.75rem;">{{session.session|get_students_session}}</p>
                         <hr>
-                        {%endfor%}
                     </td>
-                    <td> </td>
-                    <td> </td>
+
                     <td>
-                        {%for session in day|get_sessions_day:teacher.id%}
-                        {%if session != 'لا يوجد'%}
-                        <a href="{% url 'session_update' pk=session.pk next=suc_url%}">تعديل</a>
-                        {%endif%}
+                        <a class="btn btn-success" href="{% url 'student_session_create' student=student.pk day=day.pk next=suc_url%}">اضافة الطالب بالحلقة</a>
                         <hr>
-                        {%endfor%} 
                     </td>
-                    <td> 
-                        {%for session in day|get_sessions_day:teacher.id%}
-                        {%if session != 'لا يوجد'%}
-                        <a href="{%url 'session_delete' pk=session.pk next=suc_url%}">حذف</a>
-                        {%endif%}
 
+                    <td>
+                        {%if session != 'لا يوجد'%}
+                        <a class="btn btn-warning" href="{% url 'student_session_update' pk=session.pk next=suc_url%}">تعديل</a>
+                        {%endif%}
                         <hr>
-                        {%endfor%} 
-                    </td> 
+                    </td>
+
+                    <td> 
+                        {%if session != 'لا يوجد'%}
+                        <a class="btn btn-danger" href="{%url 'student_session_delete' pk=session.pk next=suc_url%}">حذف</a>
+                        {%endif%}
+                        <hr>
+                    </td>
                 </tr>
+                {%endfor%}
                 {% endfor %}
                 
-            </tbody> {% endcomment %}
+            </tbody>
         </table>
     </div>
 

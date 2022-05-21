@@ -18,7 +18,6 @@ class CRUDCreate(View):
         for k, v in initial.items():
             self.initial[k] = [v]
         self.success_url = check_suc_url(next, self.success_url)
-        print(self.initial)
         ctx = {
             'form': self.form(initial=self.initial),
             'suc_url': self.success_url,
@@ -29,7 +28,7 @@ class CRUDCreate(View):
 
     def post(self, request,next='', **initial):
         form = self.form(request.POST)
-        print(request.POST)
+        print('Post request:',request.POST)
         self.success_url = check_suc_url(next, self.success_url)
         if not form.is_valid():
             ctx = {
@@ -93,13 +92,11 @@ class CRUDUpdate(View):
 class CRUDDelete(View):
     model = models.Model
     success_url = ''
-    form = forms.ModelForm
     template = 'make_confirm_delete.html'
     type = ''
     def get(self, request, pk, next=''):
         success_url = check_suc_url(next, self.success_url)
         instance_data = get_object_or_404(self.model, pk=pk)
-        form = self.form(instance=instance_data)
         ctx = {
             'model': instance_data,
             'type': self.type,

@@ -3,6 +3,8 @@ import os
 from configurations import Configuration
 from configurations import values
 # import dj_database_url
+
+
 class Dev(Configuration):
     # Build paths inside the project like this: BASE_DIR / 'subdir'.
     BASE_DIR = Path(__file__).resolve().parent.parent
@@ -18,6 +20,7 @@ class Dev(Configuration):
     DEBUG = True
 
     ALLOWED_HOSTS = ['*']
+    INTERNAL_IPS = ["127.0.0.1"]
 
     # Application definition
 
@@ -32,9 +35,12 @@ class Dev(Configuration):
         'django.contrib.staticfiles',
         'crispy_forms',
         'crispy_bootstrap5',
+        'debug_toolbar',
     ]
 
     MIDDLEWARE = [
+        # debugging toolbar
+        'debug_toolbar.middleware.DebugToolbarMiddleware',
         'django.middleware.security.SecurityMiddleware',
         'django.contrib.sessions.middleware.SessionMiddleware',
         'django.middleware.common.CommonMiddleware',
@@ -133,12 +139,13 @@ class Dev(Configuration):
         'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
         'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
     ]
-    
+
+
 # settings for production
 class Prod(Dev):
     ALLOWED_HOSTS = ['abdoohossamm.pythonanywhere.com']
     DEBUG = False
-    # SECRET_KEY = values.SecretValue()
+    SECRET_KEY = values.SecretValue()
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',

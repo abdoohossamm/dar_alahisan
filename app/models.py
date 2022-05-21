@@ -50,8 +50,8 @@ class Day(models.Model):
 class Session(models.Model):
     day = models.ForeignKey(Day, related_name='session', on_delete=models.PROTECT)
     time = models.TimeField()
-    name = models.ForeignKey(Room, related_name= 'sessions', null=True, on_delete=models.SET_NULL,blank= True)
-    teacher = models.ForeignKey(Teacher, related_name= 'sessions', on_delete=models.PROTECT, null= False)
+    name = models.ForeignKey(Room, related_name= 'room', null=True, on_delete=models.SET_NULL,blank= True)
+    teacher = models.ForeignKey(Teacher, related_name= 'teacher', on_delete=models.PROTECT, null= False)
     class Meta:
         unique_together = ['day', 'time', 'teacher']
     def __str__(self):

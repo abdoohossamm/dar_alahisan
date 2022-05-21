@@ -14,3 +14,33 @@ class StudentSessionCreate(LoginRequiredMixin,CRUDCreate):
     success_url = reverse_lazy('session')
     type='طالب بالنسبة لحلقة'
     form = StudentSessionsForm
+
+class StudentSessionsCreateByDay(LoginRequiredMixin, CRUDCreate):
+    template = 'add_update_form.html'
+    success_url = ''
+    type="طالب بالنسبة لحلقة"
+    form = StudentSessionsForm
+    initial = {}
+    def get(self, request, day, next='', **initial):
+        for k, v in initial.items():
+            self.initial[k] = [v]
+        self.success_url = check_suc_url(next, self.success_url)
+        ctx = {
+            'form': self.form(initial=self.initial, day=day),
+            'suc_url': self.success_url,
+            'type': self.type
+            }
+        return render(request, self.template, ctx)
+
+class StudentSessionDelete(LoginRequiredMixin,CRUDDelete):
+    model = StudentSessions
+    success_url = reverse_lazy('session')
+    template = 'make_confirm_delete.html'
+    type = 'طالب بالنسبة لحلقة'
+
+class StudentSessionUpdate(LoginRequiredMixin,CRUDUpdate):
+    model = StudentSessions
+    success_url = reverse_lazy('session')
+    form = StudentSessionsForm
+    template = 'add_update_form.html'
+    type = 'طالب بالنسبة لحلقة'

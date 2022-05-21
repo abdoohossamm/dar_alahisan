@@ -63,4 +63,9 @@ urlpatterns += [
     path('teacher/<int:pk>/update/?next=<path:next>/', tv.TeacherUpdate.as_view(), name='teacher_update'),
     path('teacher/<int:pk>/delete/', tv.TeacherDelete.as_view(), name='teacher_delete'),
     path('teacher/<int:pk>/delete/?next=<path:next>/', tv.TeacherDelete.as_view(), name='teacher_delete'),
+    # Student Session CRUD
+    path('student_session/<int:pk>/delete/next=<path:next>', ssv.StudentSessionDelete.as_view(), name='student_session_delete'),
+    path('student_session/<int:pk>/update/next=<path:next>', ssv.StudentSessionUpdate.as_view(), name='student_session_update'),
+    path('student_session/<int:student>/<int:day>/next=<path:next>', ssv.StudentSessionsCreateByDay.as_view(), name='student_session_create'),
+    
 ]

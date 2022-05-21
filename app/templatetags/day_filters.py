@@ -6,30 +6,31 @@ register = template.Library()
 
 @register.filter(name= 'session_today')
 def session_today(day_id):
-    session_today = Session.objects.filter(day=day_id).order_by('time')
+    session_today = Session.objects.filter(day=day_id).select_related('name', 'teacher').order_by('time')
     return session_today
 
 @register.filter(name= 'session_count')
 def session_count(day_id):
-    session_today = Session.objects.filter(day=day_id).order_by('time')
-    return session_today.count()
+    return Session.objects.filter(day=day_id).count()
 
 @register.filter(name= 'student_count')
 def student_count(day_id):
-    session = Session.objects.all().order_by('time')
-    student_counter = 0
-    for i in session.filter(day=day_id):
-        student_count = StudentSessions.objects.filter(session= i).count()
-        student_counter += student_count
-    return student_counter
+    student_count = StudentSessions.objects.filter(session__day= day_id).count()
+    return student_count
 
 @register.filter(name= 'teacher_count')
 def teacher_count(day_id):
-    session_today = Session.objects.filter(day=day_id).order_by('time')
-    teacher = Teacher.objects.all()
+    session_today = Session.objects.filter(day=day_id).only('pk')
+    teacher = Teacher.objects.all().only('id')
     teachers=[]
     for teach in teacher:
-        for i in session_today:
-            if session_today.filter(teacher=teach) and teach not in teachers: 
-                teachers.append(teach)
+        if session_today.filter(teacher=teach) and teach not in teachers: 
+            teachers.append(teach)
     return len(teachers)
+
+# @register.filter(name= 'teacher_count')
+# def teacher_count(day_id):
+#     session_today = Session.objects.filter(day=day_id).select_related('name', 'teacher').order_by('time')
+#     teacher = set(session_today)
+#     print(session_today)
+#     return len(teacher)

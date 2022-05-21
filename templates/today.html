@@ -10,7 +10,7 @@
                 <h2>الحلقات اليوم {{day_pk|session_count}}</h2>
                 <hr>
                 {% for session in day_pk|session_today%}
-                <h5>المحفظ {{session.teacher}} غرفة {{session.name}} الساعة {{session.time|time:"H:i"}}</h5>
+                    <h5>المحفظ {{session.teacher}} غرفة {{session.name}} الساعة {{session.time|time:"H:i"}}</h5>
                 {%endfor%}
             </div>
         </div>        

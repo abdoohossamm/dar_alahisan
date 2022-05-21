@@ -22,63 +22,57 @@
             </thead>
             <tbody>
                 {%for day in days%}
+                {%for session in day|get_sessions_day:teacher.id%}
                 <tr>
                     <td style="background-color: #e9ecef;">
                         {{day}}
                     </td>
+
                     <td > 
-                        {%for session in day|get_sessions_day:teacher.id%}
-                            <p style="border: 1px solid transparent; padding: 0.53rem 0.75rem;">{{session|format_session}}</p>
-                            <hr>
-                        {%endfor%}
+                        <p style="border: 1px solid transparent; padding: 0.53rem 0.75rem;">{{session|format_session}}</p>
+                        <hr>
                     </td>
 
                     <td> 
-                        {%for session in day|get_sessions_day:teacher.id%}
                         <p style="border: 1px solid transparent; padding: 0.53rem 0.75rem;">{{session|get_students_session}}</p>
                         <hr>
-                        {%endfor%}
                     </td>
+
                     <td> 
-                        {%for session in day|get_sessions_day:teacher.id%}
                         {%if session != 'لا يوجد'%}
                         <a class="btn btn-primary" href="{% url 'student_session_create' session=session.pk next=suc_url%}">عرض الطلاب</a>
                         {%endif%}
                         <hr>
-                        {%endfor%} 
-                    </td>                    
+                    </td>  
+
                     <td> 
                         <a class="btn btn-success" href="{% url 'session_create'  day=day.pk teacher=teacher.pk next=suc_url%}">اضافة حلقة</a>
                         <hr>
                         
-
                     </td>
+
                     <td>
-                        {%for session in day|get_sessions_day:teacher.id%}
                         {%if session != 'لا يوجد'%}
                         <a class="btn btn-success" href="{% url 'student_session_create' session=session.pk next=suc_url%}">اضافة طالب بالحلقة</a>
                         {%endif%}
                         <hr>
-                        {%endfor%} 
                     </td>
+
                     <td>
-                        {%for session in day|get_sessions_day:teacher.id%}
                         {%if session != 'لا يوجد'%}
                         <a class="btn btn-warning" href="{% url 'session_update' pk=session.pk next=suc_url%}">تعديل</a>
                         {%endif%}
                         <hr>
-                        {%endfor%} 
                     </td>
+
                     <td> 
-                        {%for session in day|get_sessions_day:teacher.id%}
                         {%if session != 'لا يوجد'%}
                         <a class="btn btn-danger" href="{%url 'session_delete' pk=session.pk next=suc_url%}">حذف</a>
                         {%endif%}
-
                         <hr>
-                        {%endfor%} 
-                    </td> 
+                    </td>
                 </tr>
+                {%endfor%}
                 {% endfor %}
                 
             </tbody>
