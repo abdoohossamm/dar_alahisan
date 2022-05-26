@@ -26,6 +26,7 @@ class Dev(Configuration):
 
     INSTALLED_APPS = [
         'app',
+        'reports',
         'widget_tweaks',
         'django.contrib.admin',
         'django.contrib.auth',
@@ -36,6 +37,7 @@ class Dev(Configuration):
         'crispy_forms',
         'crispy_bootstrap5',
         'debug_toolbar',
+        'django_filters'
     ]
 
     MIDDLEWARE = [
@@ -69,6 +71,7 @@ class Dev(Configuration):
     ]
 
     WSGI_APPLICATION = 'project.wsgi.application'
+    
 
 
     # Database
@@ -117,7 +120,6 @@ class Dev(Configuration):
     USE_I18N = True
 
     USE_TZ = True
-
 
     # Static files (CSS, JavaScript, Images)
     # https://docs.djangoproject.com/en/4.0/howto/static-files/

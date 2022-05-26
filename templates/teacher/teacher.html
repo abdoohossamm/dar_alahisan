@@ -5,6 +5,7 @@
 {% block pagename %}
 المحفظين
 {% endblock pagename %}
+{% block print_title %}المحفظين{%endblock print_title%}
 {% block thead %}
     <tr style="background-color: steelblue;">
         <th scope="col">الكود</th>
@@ -13,15 +14,15 @@
         <th scope="col">العنوان</th>
         <th scope="col">رقم التليفون</th>
         <th scope="col">رقم الهاتف المنزلى</th>
-        <th scope="col">التعديل</th>
-        <th scope="col">الحذف</th>
+        <th class="haslink" scope="col">التعديل</th>
+        <th class="haslink" scope="col">الحذف</th>
     </tr>
 {% endblock thead %}
 
 {% block tbody %}
     {% for teacher in page_obj %}
         <tr>
-            <td ><a class="btn btn-info btn-sm" href="{%url 'teacher_details' teacher.id%}"> {{teacher.id}}</a></td>
+            <td ><a href="{%url 'teacher_details' teacher.id%}"> {{teacher.id}}</a></td>
             <td>
                 <a href="{%url 'teacher_details' teacher.id%}"> 
                     {{teacher}}
@@ -31,8 +32,8 @@
             <td> {{teacher.address}}</td>
             <td> {{teacher.phone}}</td>
             <td> {{teacher.home_number}}</td>
-            <td > <a class="btn btn-warning" href="{%url 'teacher_update' pk=teacher.pk %}">تعديل</a></td>
-            <td> <a class="btn btn-danger" href="{%url 'teacher_delete' pk=teacher.pk %}">حذف</a></td>
+            <td class="haslink"> <a class="btn btn-warning" href="{%url 'teacher_update' pk=teacher.pk %}">تعديل</a></td>
+            <td class="haslink"> <a class="btn btn-danger" href="{%url 'teacher_delete' pk=teacher.pk  next=request.get_full_path%}">حذف</a></td>
         </tr>
     {% endfor %} 
 {% endblock tbody %}

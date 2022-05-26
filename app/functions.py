@@ -1,6 +1,6 @@
 import datetime
 # global variables
-ITEM_PER_PAGE = 10
+ITEM_PER_PAGE = 20
 
 # functions
 def check_suc_url(next, success_url):

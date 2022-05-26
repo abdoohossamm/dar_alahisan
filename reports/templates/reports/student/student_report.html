@@ -1,0 +1,58 @@
+{%extends 'parts/base.html' %}
+{%load poll_extras%}
+{%load reports_extras%}
+{%block title%} تقارير الطالب {{student_report.student}} {%endblock title%}
+{%block body%}    
+<div>
+        <ol class="breadcrumb my-4">
+            <li class="breadcrumb-item active"><h1>
+                تقارير الطالب {{student_report.student}}
+            </h1></li>
+        </ol>
+        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#example-modal">
+            اضافة تقرير للحلقة
+        </button>
+        <input class="btn btn-info" type="button" onclick="PrintTable('تقرير حلقة:<br>{{session}}');" value="طباعة الجدول"/>
+        
+        {%include 'parts/dialog_form.html'%}
+        <hr>
+        <table id="print" class="table table-striped table-bordered">
+            <thead class="thead-light">
+                <tr>
+                    <th scope="col">الحلقة</th>
+                    <th scope="col">التاريخ</th>
+                    <th scope="col">حالة الحضور</th>
+                    <th scope="col">الدفع</th>
+                    <th class="haslink" scope="col">تعديل التقرير</th>
+                    <th class="haslink" scope="col">حذف التقرير</th>
+                </tr>
+            </thead>
+        <tbody>
+            {% for report in student_report %}
+            <tr>
+                    <td>
+                        <p style="border: 1px solid transparent; padding: 0.53rem 0.75rem;">{{report.session_report.session}}</p>
+                    </td>
+                    <td>
+                        <p style="border: 1px solid transparent; padding: 0.53rem 0.75rem;">{{report.session_report.session_date|date:'l Y/m/d'|day_in_arabic}}</p>
+                    </td>                    
+                    <td>
+                        <p style="border: 1px solid transparent; padding: 0.53rem 0.75rem;">{{report.attend}}</p>
+                    </td>                      
+                    <td>
+                        <p style="border: 1px solid transparent; padding: 0.53rem 0.75rem;">{{report.money}}</p>
+                    </td>                    
+                    <td class="haslink"> 
+                        <a class="btn btn-warning" href="{%url 'reports:student_report_update' pk=report.pk next=request.get_full_path%}">تعديل</a>
+                    </td>               
+                    <td class="haslink"> 
+                        <a class="btn btn-danger" href="{%url 'reports:student_report_delete' pk=report.pk next=request.get_full_path%}">حذف</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+{% endblock body %}

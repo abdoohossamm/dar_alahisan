@@ -40,34 +40,34 @@
 
                     <td> 
                         {%if session != 'لا يوجد'%}
-                        <a class="btn btn-primary" href="{% url 'student_session_create' session=session.pk next=suc_url%}">عرض الطلاب</a>
+                        <a class="btn btn-primary" href="{%url 'students_in_session' session.pk%}">عرض الطلاب</a>
                         {%endif%}
                         <hr>
                     </td>  
 
                     <td> 
-                        <a class="btn btn-success" href="{% url 'session_create'  day=day.pk teacher=teacher.pk next=suc_url%}">اضافة حلقة</a>
+                        <a class="btn btn-success" href="{% url 'session_create'  day=day.pk teacher=teacher.pk next=request.get_full_path%}">اضافة حلقة</a>
                         <hr>
                         
                     </td>
 
                     <td>
                         {%if session != 'لا يوجد'%}
-                        <a class="btn btn-success" href="{% url 'student_session_create' session=session.pk next=suc_url%}">اضافة طالب بالحلقة</a>
+                        <a class="btn btn-success" href="{% url 'student_session_create' session=session.pk next=request.get_full_path%}">اضافة طالب بالحلقة</a>
                         {%endif%}
                         <hr>
                     </td>
 
                     <td>
                         {%if session != 'لا يوجد'%}
-                        <a class="btn btn-warning" href="{% url 'session_update' pk=session.pk next=suc_url%}">تعديل</a>
+                        <a class="btn btn-warning" href="{% url 'session_update' pk=session.pk next=request.get_full_path%}">تعديل</a>
                         {%endif%}
                         <hr>
                     </td>
 
                     <td> 
                         {%if session != 'لا يوجد'%}
-                        <a class="btn btn-danger" href="{%url 'session_delete' pk=session.pk next=suc_url%}">حذف</a>
+                        <a class="btn btn-danger" href="{%url 'session_delete' pk=session.pk next=request.get_full_path%}">حذف</a>
                         {%endif%}
                         <hr>
                     </td>

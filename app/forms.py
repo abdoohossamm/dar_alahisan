@@ -2,6 +2,10 @@ from django.forms import ModelForm
 from .models import Manager, Room, Teacher, Session, Student, StudentSessions
 from django import forms
 
+
+class TimeInput(forms.TimeInput):
+    input_type = 'time'
+
 # Create the form class.
 class ManagerForm(ModelForm):
     class Meta:
@@ -37,7 +41,6 @@ class RoomForm(ModelForm):
             }
 
 class SessionForm(ModelForm):
-    time = forms.TimeField(initial='00:00')
     class Meta:
         model = Session
         fields = '__all__'
@@ -47,6 +50,7 @@ class SessionForm(ModelForm):
             'time':('الميعاد'),
             'name':('اسم الغرفة'),
         }
+        widgets={'time':TimeInput()}
 class StudentForm(ModelForm):
     class Meta:
         model = Student
@@ -59,6 +63,7 @@ class StudentForm(ModelForm):
             'home_number': ('التليفون الارضي')
         }
 class StudentSessionsForm(ModelForm):
+    session = forms.ModelChoiceField(queryset=Session.objects.all().select_related('teacher', 'name','day'))
     class Meta:
         model = StudentSessions
         fields = '__all__'
@@ -67,12 +72,12 @@ class StudentSessionsForm(ModelForm):
             'session': ('الحلقة')
         }
     def __init__(self, *args, **kwargs):
-        try:
-            day = kwargs.pop('day')
-        except KeyError:
-            day = False
+        day = kwargs.pop('day', '')
+        teacher = kwargs.pop('teacher', '')
         super(StudentSessionsForm, self).__init__(*args,**kwargs)
-        if day:
+        if day and teacher:
+            self.fields['session'].queryset = Session.objects.filter(day= day, teacher= teacher)  # type: ignore
+        elif day:
             self.fields['session'].queryset = Session.objects.filter(day= day)  # type: ignore
-
-
+        elif teacher:
+            self.fields['session'].queryset = Session.objects.filter(teacher= teacher)  # type: ignore

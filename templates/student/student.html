@@ -1,32 +1,48 @@
 {%extends 'parts/detail_temp.html' %}
+{%load poll_extras%}
 
 {%block title%}الطلاب {%endblock title%}
 {% block pagename %}الطلاب{% endblock pagename %}
+{% block print_title %}الطلاب{% endblock print_title %}
 {% block thead %}
     <tr stye="background-color: steelblue;">
         <th scope="col">الكود</th>
         <th scope="col">اسم الطالب</th>
-        <th scope="col">الرقم القومى</th>
-        <th scope="col">العنوان</th>
-        <th scope="col">رقم التليفون</th>
-        <th scope="col">رقم الهاتف المنزلى</th>
-        <th scope="col">التعديل</th>
-        <th scope="col">الحذف</th>
+        <th scope="col">اسم المحفظ</th>
+        <th scope="col">الحلقات</th>
+        <th class="haslink" scope="col">تقرير الحضور</th>
+        <th class="haslink" scope="col">التعديل</th>
+        <th class="haslink" scope="col">الحذف</th>
     </tr>
 {% endblock thead %}
 {% block tbody %}
-  
+
 <tbody>
     {% for student in students %}
     <tr>
         <td><a href="{%url 'student_details' student.pk%}"> {{student.pk}}</a></td>
         <td><a href="{%url 'student_details' student.pk%}"> {{student.name}}</a></td>
-        <td> {{student.n_id}}</td>
+        {% comment %}
         <td> {{student.address}}</td>
         <td> {{student.phone}}</td>
         <td> {{student.home_number}}</td>
-        <td> <a class="btn btn-warning" href="{%url 'student_update' student.pk %}">تعديل</a></td>
-        <td> <a class="btn btn-danger" href="{%url 'student_delete' student.pk%}">حذف</a></td>
+        {% endcomment %}
+        <td> {{student.teacher.name}}</td>
+        <td>
+            <a class="btn btn-success" href="{% url 'student_session_create' student=student.pk teacher=student.teacher.pk next=request.get_full_path%}">اضافة</a>
+            <br>
+        {% for session in  student|student_sessions%}
+        {{session.session}} <a class="btn btn-danger" href="{%url 'student_session_delete' pk=session.pk next=request.get_full_path%}">حذف</a>
+
+        <hr>
+        {% endfor %}
+        </td>
+        <td class="haslink">
+            <a class="btn btn-success" href="{% url 'reports:student_report' student=student.pk next=request.get_full_path%}">عرض التقارير</a>
+            <hr>
+        </td>
+        <td class="haslink"> <a class="btn btn-warning" href="{%url 'student_update' student.pk %}">تعديل</a></td>
+        <td class="haslink"> <a class="btn btn-danger" href="{%url 'student_delete' student.pk%}">حذف</a></td>
     </tr>
     {% endfor %}
 {% endblock tbody %}

@@ -3,7 +3,7 @@ from django.views import View
 from django.db import models
 from django import forms
 from .functions import check_suc_url
-
+import time
 '''
 CRUD Views
 '''
@@ -108,8 +108,19 @@ class CRUDDelete(View):
     def post(self, request, pk, next=''):
         success_url = check_suc_url(next, self.success_url)
         make = get_object_or_404(self.model, pk=pk)
-        make.delete()
-        
+        from django.db.models import ProtectedError
+        try:
+            make.delete()
+        except ProtectedError as e:
+            error = f"""لا يمكن حذف {self.type} {make} لانة مرتبط ببيانات اخرى
+            \n يجرى التأكد من حذف البيانات والمحاولة بعد ذلك\n
+            اذا كان محفظ تأكد من حذف كل الحلقات الخاصة بة
+            """
+            ctx = {
+            'error': error,
+            'suc_url':success_url 
+            }
+            return render(request, 'errors.html', ctx)
         return redirect(success_url)
 
 

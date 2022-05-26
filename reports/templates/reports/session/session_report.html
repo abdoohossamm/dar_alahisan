@@ -1,0 +1,48 @@
+{%extends 'parts/detail_temp.html' %}
+{%load poll_extras%}
+{%load reports_extras%}
+
+{% block pagename %}
+تقارير الحلقات
+{% endblock pagename %}
+{%block title%} الحلقات {%endblock title%}
+{% block thead %}
+  <tr>
+    <th scope="col">الحلقة</th>
+    <th scope="col">التاريخ</th>
+    <th scope="col">تقرير الحفظ</th>
+    <th scope="col">تقرير المراجعة</th>
+    <th class="haslink" scope="col">الطلاب الحاضرين</th>
+    <th class="haslink" scope="col">تعديل التقرير</th>
+    <th class="haslink" scope="col">حذف التقرير</th>
+  </tr>
+{% endblock thead %}
+{% block tbody %}
+
+{% for report in page_obj %}
+<tr>
+        <td>
+            <p style="border: 1px solid transparent; padding: 0.53rem 0.75rem;">{{report.session}}</p>
+        </td>
+        <td>
+          <p style="border: 1px solid transparent; padding: 0.53rem 0.75rem;">{{report.session_date|date:'l d/m/Y'|day_in_arabic}}</p>
+        </td>
+        <td>
+            <p style="border: 1px solid transparent; padding: 0.53rem 0.75rem;">{{report.report}}</p>
+        </td>                    
+        <td>
+            <p style="border: 1px solid transparent; padding: 0.53rem 0.75rem;">{{report.review_report}}</p>
+        </td>                    
+        <td class="haslink"> 
+            <a class="btn btn-primary" href="{%url 'reports:student_session_attend' session_report=report.pk next=request.get_full_path%}">عرض الطلاب</a>
+        </td>
+        <td class="haslink"> 
+            <a class="btn btn-warning" href="{%url 'reports:session_report_update' pk=report.pk next=request.get_full_path%}">تعديل</a>
+        </td>                    
+        <td class="haslink"> 
+            <a class="btn btn-danger" href="{%url 'reports:session_report_delete' pk=report.pk next=request.get_full_path%}">حذف</a>
+        </td>        
+    </tr>
+    {% endfor %}
+{% endblock tbody %}
+

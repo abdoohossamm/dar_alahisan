@@ -1,0 +1,44 @@
+{%extends 'parts/detail_temp.html' %}
+{%load poll_extras%}
+{%load reports_extras%}
+
+{% block pagename %}
+تقرير الطلاب فى حلقة {{session_report.session}} <br>
+تاريخ {{session_report.session_date|date:'d/m/Y'}}
+{% endblock pagename %}
+{%block title%} {%endblock title%}
+{% block thead %}
+  <tr>
+    <th scope="col">كود الطالب</th>
+    <th scope="col">اسم الطالب</th>
+    <th scope="col">حالة الحضور</th>
+    <th scope="col">الدفع</th>
+    <th class="haslink" scope="col">تعديل</th>
+    <th class="haslink" scope="col">حذف التقرير</th>
+  </tr>
+{% endblock thead %}
+{% block tbody %}
+{% for student_report in students_reports %}
+<tr>
+        <td>
+            <p style="border: 1px solid transparent; padding: 0.53rem 0.75rem;">{{student_report.student.pk}}</p>
+        </td>
+        <td>
+            <p style="border: 1px solid transparent; padding: 0.53rem 0.75rem;">{{student_report.student.name}}</p>
+        </td>
+        <td>
+            <p style="border: 1px solid transparent; padding: 0.53rem 0.75rem;">{{student_report.attend}}</p>
+        </td>                    
+        <td>
+            <p style="border: 1px solid transparent; padding: 0.53rem 0.75rem;">{{student_report.money}}</p>
+        </td>                    
+        <td class="haslink"> 
+            <a class="btn btn-warning" href="{%url 'reports:student_report_update' pk=student_report.pk next=request.get_full_path%}">تعديل</a>
+        </td>                    
+        <td class="haslink"> 
+            <a class="btn btn-danger" href="">حذف</a>
+        </td>        
+    </tr>
+    {% endfor %}
+{% endblock tbody %}
+

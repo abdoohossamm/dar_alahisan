@@ -21,12 +21,12 @@ class StudentSessionsCreateByDay(LoginRequiredMixin, CRUDCreate):
     type="طالب بالنسبة لحلقة"
     form = StudentSessionsForm
     initial = {}
-    def get(self, request, day, next='', **initial):
+    def get(self, request, day=None, teacher=None, next='', **initial):
         for k, v in initial.items():
             self.initial[k] = [v]
         self.success_url = check_suc_url(next, self.success_url)
         ctx = {
-            'form': self.form(initial=self.initial, day=day),
+            'form': self.form(initial=self.initial, day=day, teacher=teacher),
             'suc_url': self.success_url,
             'type': self.type
             }

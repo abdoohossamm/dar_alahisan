@@ -1,0 +1,57 @@
+{%extends 'parts/base.html' %}
+{%load poll_extras%}
+{%load reports_extras%}
+{%block title%}{{student_session}} {%endblock title%}
+{%block body%}    
+<div>
+        <ol class="breadcrumb my-4">
+            <li class="breadcrumb-item active"><h1>
+                تقرير حلقة {{session}}
+            </h1></li>
+        </ol>
+        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#example-modal">
+            اضافة تقرير للحلقة
+        </button>
+        <input class="btn btn-info" type="button" onclick="PrintTable('تقرير حلقة:<br>{{session}}');" value="طباعة الجدول"/>
+        
+        {%include 'parts/dialog_form.html'%}
+        <hr>
+        <table id="print" class="table table-striped table-bordered">
+            <thead class="thead-light">
+                <tr>
+                    <th scope="col">التاريخ</th>
+                    <th scope="col">تقرير الحفظ</th>
+                    <th scope="col">تقرير المراجعة</th>
+                    <th class="haslink" scope="col">تعديل التقرير</th>
+                    <th class="haslink" scope="col">حذف التقرير</th>
+                </tr>
+            </thead>
+        <tbody>
+            {% for report in session_reports %}
+            <tr>
+                    <td>
+                        <p style="border: 1px solid transparent; padding: 0.53rem 0.75rem;">{{report.session_date|date:'l Y/m/d'|day_in_arabic}}</p>
+                    </td>
+                    <td>
+                        <p style="border: 1px solid transparent; padding: 0.53rem 0.75rem;">{{report.report}}</p>
+                    </td>                    
+                    <td>
+                        <p style="border: 1px solid transparent; padding: 0.53rem 0.75rem;">{{report.review_report}}</p>
+                    </td>                    
+                    <td class="haslink"> 
+                        <a class="btn btn-primary" href="{%url 'reports:student_session_attend' session_report=report.pk next=request.get_full_path%}">عرض الطلاب</a>
+                    </td>               
+                    <td class="haslink"> 
+                        <a class="btn btn-warning" href="{%url 'reports:session_report_update' pk=report.pk next=request.get_full_path%}">تعديل</a>
+                    </td>                    
+                    <td class="haslink"> 
+                        <a class="btn btn-danger" href="{%url 'reports:session_report_delete' pk=report.pk next=request.get_full_path%}">حذف</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+{% endblock body %}

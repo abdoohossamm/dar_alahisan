@@ -16,6 +16,11 @@ def get_sessions_day(day, teacher=1):
         return result
     return ['لا يوجد']
 
+@register.filter(name='student_sessions')
+def student_sessions(student):
+    sessions =  StudentSessions.objects.filter(student=student).select_related('session__teacher', 'session__name', 'session__day')
+    return sessions
+
 
 @register.filter(name= 'format_session')
 def format_session(session) -> str :
@@ -54,3 +59,4 @@ def get_sessions_day_student(day, student=1):
     if len(result) > 0:
         return result
     return ['لا يوجد']
+

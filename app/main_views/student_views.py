@@ -24,14 +24,14 @@ def search_model(request, item:int=10):
         query.add(Q(address__icontains=strval), Q.OR)
         query.add(Q(phone__icontains=strval), Q.OR)
         query.add(Q(home_number__icontains=strval), Q.OR)
-        student = Student.objects.filter(query).select_related()
+        student = Student.objects.filter(query).select_related('teacher').order_by('id')
         return {
             'search': strval,
             'students': student,
             'page_obj': student
         }
     else :
-        student = Student.objects.all()
+        student = Student.objects.all().select_related('teacher').order_by('id')
         paginator = Paginator(student, item)
         page_obj = paginator.get_page(page_number)
         return {
@@ -86,9 +86,6 @@ class StudentDetailsView(LoginRequiredMixin, View):
     def get(self, request, pk):
         student = get_object_or_404(self.model, pk=pk)
         student_session = StudentSessions.objects.filter(student=student)
-        session = Session.objects.filter(student_session__student=student)
-        for se in session:
-            print(se)
         days = Day.objects.all().order_by('id')
         success_url = reverse_lazy('student_details', kwargs={'pk':student.pk})
         ctx = {

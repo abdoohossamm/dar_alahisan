@@ -43,20 +43,20 @@
                     </td>
 
                     <td>
-                        <a class="btn btn-success" href="{% url 'student_session_create' student=student.pk day=day.pk next=suc_url%}">اضافة الطالب بالحلقة</a>
+                        <a class="btn btn-success" href="{% url 'student_session_create' student=student.pk day=day.pk next=request.get_full_path%}">اضافة الطالب بالحلقة</a>
                         <hr>
                     </td>
 
                     <td>
                         {%if session != 'لا يوجد'%}
-                        <a class="btn btn-warning" href="{% url 'student_session_update' pk=session.pk next=suc_url%}">تعديل</a>
+                        <a class="btn btn-warning" href="{% url 'student_session_update' pk=session.pk next=request.get_full_path%}">تعديل</a>
                         {%endif%}
                         <hr>
                     </td>
 
                     <td> 
                         {%if session != 'لا يوجد'%}
-                        <a class="btn btn-danger" href="{%url 'student_session_delete' pk=session.pk next=suc_url%}">حذف</a>
+                        <a class="btn btn-danger" href="{%url 'student_session_delete' pk=session.pk next=request.get_full_path%}">حذف</a>
                         {%endif%}
                         <hr>
                     </td>

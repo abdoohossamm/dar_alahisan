@@ -64,6 +64,7 @@ class Student(models.Model):
     address= models.CharField(max_length= 150)
     phone= models.CharField(max_length= 12, validators= [validators.MinLengthValidator(11, 'رقم الهاتف يجب ان يكون 11رقم'), only_int])
     home_number = models.CharField(max_length= 12, validators= [validators.MinLengthValidator(7, 'رقم هاتف المنزل يجب ان يكون 7 ارقام'), only_int])
+    teacher = models.ForeignKey(Teacher, related_name="student_teacher" ,on_delete=models.PROTECT)
     class Meta:
         unique_together = ['n_id', 'phone']
     def __str__(self):
@@ -77,3 +78,5 @@ class StudentSessions(models.Model):
         unique_together = ['student', 'session']
     def __str__(self):
         return f'{self.student.name}, {self.session.teacher}, {self.session.time}, {self.session.name} '  # type: ignore
+
+

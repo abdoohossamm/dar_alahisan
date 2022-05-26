@@ -1,0 +1,53 @@
+{%extends 'parts/base.html' %}
+{%block title%}بيانات طلاب {%endblock title%}
+{%block body%}    
+<div>
+        <ol class="breadcrumb my-4">
+            <li class="breadcrumb-item active"><h1>
+                بيانات الطلاب فى حلقة:
+                <br>
+                المحفظ {{session}}
+            </h1></li>
+        </ol>
+        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#example-modal">
+            اضافة طالب للحلقة
+        </button>
+        <input class="btn btn-info" type="button" onclick="PrintTable('بيانات الطلاب فى حلقة:<br>المحفظ {{session}}');" value="طباعة الجدول"/>
+        <br>
+        <br>
+        <a class="btn btn-success" href="{%url 'reports:session_report_create' session=session.pk next=request.get_full_path%}">اضافة تقرير للحلقة</a>
+        <a class="btn btn-primary" href="{% url 'reports:session_report' session_pk=session.pk%}">عرض تقارير الحلقة</a>
+        <br>
+        <br>
+        {%include 'parts/dialog_form.html'%}
+        <hr>
+        <p>ملحوظة يجب اضافة تقرير قبل تسجيل حضور الطلاب</p>
+        <table id="print" class="table table-striped table-bordered">
+            <thead class="thead-light">
+                <tr>
+                <th scope="col">كود الطالب</th>
+                <th scope="col">اسم الطالب</th>
+                <th class="haslink" scope="col">حذف الطالب من الحلقة</th>
+            </tr>
+        </thead>
+        <tbody>
+            {%for session in student_session%}
+            <tr>
+                <td > 
+                    <p style="border: 1px solid transparent; padding: 0.53rem 0.75rem;">{{session.student.id}}</p>
+                </td>
+                <td> 
+                    <p style="border: 1px solid transparent; padding: 0.53rem 0.75rem;">{{session.student.name}}</p>
+                </td>                 
+                <td class="haslink"> 
+                    <a class="btn btn-danger" href="{%url 'student_session_delete' pk=session.pk next=request.get_full_path%}">حذف</a>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+
+
+    {%endblock body%}

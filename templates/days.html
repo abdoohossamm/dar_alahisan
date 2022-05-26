@@ -11,7 +11,7 @@
                 <h2>الحلقات اليوم {{day.id|session_count}}</h2>
                 <hr>
                 {% for session in day.id|session_today%}
-                <h5>المحفظ {{session.teacher}} غرفة {{session.name}} الساعة {{session.time|time:"H:i"}}</h5>
+                <h5><a href="{%url 'students_in_session' session.pk%}">المحفظ {{session.teacher}} غرفة {{session.name}} الساعة {{session.time|time:"H:i"}}</a></h5>
                 {%endfor%}
             </div>
         </div>        

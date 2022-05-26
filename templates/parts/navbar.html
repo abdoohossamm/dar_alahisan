@@ -55,11 +55,25 @@ SideBar
       <a href="{%url 'student_create'%}" class="w3-bar-item w3-button">المحفظين</a>
       <a href="#" class="w3-bar-item w3-button">الطلاب</a>
     </div>
+    <button class="w3-button w3-block w3-left-align" onclick="myAccFunc('demoAcc6')">
+      تقارير الحلقات <img src="{%static 'icons/angle-arrow-down.png'%}" style="width:10px;">
+    </button>
+    <div id="demoAcc6" class="w3-hide w3-white w3-card">
+      <a href="{%url 'reports:session_report'%}" class="w3-bar-item w3-button">كل التقارير</a>
+      <a href="{%url 'student'%}" class="w3-bar-item w3-button">تقارير حسب اليوم</a>
+      <a href="{%url 'student_create'%}" class="w3-bar-item w3-button">تقرير شهرى</a>
+      <a href="{%url 'student_create'%}" class="w3-bar-item w3-button">تقرير حسب الحلقة</a>
+      <a href="#" class="w3-bar-item w3-button">الطلاب</a>
+    </div>
     <a href="#" class="w3-bar-item w3-button">Link 2</a>
     <a href="#" class="w3-bar-item w3-button">Link 3</a>
   <hr>
     <a href="{%url 'logout'%}" class="w3-bar-item w3-button">تسجيل الخروج</a>
     <p style="text-align:center">{% now "jS F Y H:i" %}</p>
+    <h3>بيانات المطور:</h3>
+    <p>عبدالرحمن حسام الدين محمد</p>
+    <p>01281870665 / 01273438590</p>
+    <a href="mailto:abdoohossamm@outlook.com">abdoohossamm@outlook.com</a>
   </div>
 
   {% comment %}

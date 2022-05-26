@@ -19,9 +19,6 @@ urlpatterns = [
     path('session/', sv.SessionView.as_view(), name='session'),
     path('teacher/', tv.TeachersView.as_view(), name='teacher'),
     path('teacher/<int:pk>/', tv.TeacherDetailsView.as_view(), name='teacher_details'),
-    path('stu_session_<int:session>/create/next=<path:next>/', ssv.StudentSessionCreate.as_view(), name='student_session_create'),
-    path('stu_session_<int:student>/create/next=<path:next>/', ssv.StudentSessionCreate.as_view(), name='student_session_create'),
-    path('stu_session/<int:student>/<int:session>/create/', ssv.StudentSessionCreate.as_view(), name='student_session_create'),
     # account views
     path('logout/', vi.LogoutView.as_view(), name='logout'),
     path('login/', vi.LoginView.as_view(template_name='login.html'), name='login'),
@@ -57,6 +54,7 @@ urlpatterns += [
     path('session/<int:pk>/update/', sv.SessionUpdate.as_view(), name='session_update'),
     path('session/<int:pk>/delete/next=<path:next>/', sv.SessionDelete.as_view(), name='session_delete'),
     path('session/<int:pk>/delete/', sv.SessionDelete.as_view(), name='session_delete'),
+    path('session/<int:pk>/students/', sv.students_in_session, name='students_in_session'),
     # teacher CRUD
     path('teacher/create/', tv.TeacherCreate.as_view(), name='teacher_create'),
     path('teacher/<int:pk>/update/', tv.TeacherUpdate.as_view(), name='teacher_update'),
@@ -64,8 +62,13 @@ urlpatterns += [
     path('teacher/<int:pk>/delete/', tv.TeacherDelete.as_view(), name='teacher_delete'),
     path('teacher/<int:pk>/delete/?next=<path:next>/', tv.TeacherDelete.as_view(), name='teacher_delete'),
     # Student Session CRUD
+    path('stu_session_<int:session>/create/next=<path:next>/', ssv.StudentSessionCreate.as_view(), name='student_session_create'),
+    path('stu_session_<int:student>/create/next=<path:next>/', ssv.StudentSessionCreate.as_view(), name='student_session_create'),
+    path('stu_session/<int:student>/<int:session>/create/next=<path:next>/', ssv.StudentSessionCreate.as_view(), name='student_session_create'),
     path('student_session/<int:pk>/delete/next=<path:next>', ssv.StudentSessionDelete.as_view(), name='student_session_delete'),
+    path('student_session/<int:student>/delete/next=<path:next>', ssv.StudentSessionDelete.as_view(), name='student_session_delete'),
     path('student_session/<int:pk>/update/next=<path:next>', ssv.StudentSessionUpdate.as_view(), name='student_session_update'),
     path('student_session/<int:student>/<int:day>/next=<path:next>', ssv.StudentSessionsCreateByDay.as_view(), name='student_session_create'),
+    path('student_session/<int:student>/<int:teacher>/create/next=<path:next>/', ssv.StudentSessionsCreateByDay.as_view(), name='student_session_create'),
     
 ]
