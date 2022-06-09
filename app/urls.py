@@ -19,6 +19,7 @@ urlpatterns = [
     path('session/', sv.SessionView.as_view(), name='session'),
     path('teacher/', tv.TeachersView.as_view(), name='teacher'),
     path('teacher/<int:pk>/', tv.TeacherDetailsView.as_view(), name='teacher_details'),
+    path('developer_details/', views.developer_details, name='developer_details'),
     # account views
     path('logout/', vi.LogoutView.as_view(), name='logout'),
     path('login/', vi.LoginView.as_view(template_name='login.html'), name='login'),
@@ -70,5 +71,6 @@ urlpatterns += [
     path('student_session/<int:pk>/update/next=<path:next>', ssv.StudentSessionUpdate.as_view(), name='student_session_update'),
     path('student_session/<int:student>/<int:day>/next=<path:next>', ssv.StudentSessionsCreateByDay.as_view(), name='student_session_create'),
     path('student_session/<int:student>/<int:teacher>/create/next=<path:next>/', ssv.StudentSessionsCreateByDay.as_view(), name='student_session_create'),
+    path('student_session/<int:student>/create/next=<path:next>/', ssv.StudentSessionsCreateByDay.as_view(), name='student_session_create'),
     
 ]

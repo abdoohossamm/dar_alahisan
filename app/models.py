@@ -51,7 +51,7 @@ class Session(models.Model):
     day = models.ForeignKey(Day, related_name='session', on_delete=models.PROTECT)
     time = models.TimeField()
     name = models.ForeignKey(Room, related_name= 'room', null=True, on_delete=models.SET_NULL,blank= True)
-    teacher = models.ForeignKey(Teacher, related_name= 'teacher', on_delete=models.PROTECT, null= False)
+    teacher = models.ForeignKey(Teacher, related_name= 'teacher', on_delete=models.PROTECT, null= True)
     class Meta:
         unique_together = ['day', 'time', 'teacher']
     def __str__(self):
@@ -64,7 +64,7 @@ class Student(models.Model):
     address= models.CharField(max_length= 150)
     phone= models.CharField(max_length= 12, validators= [validators.MinLengthValidator(11, 'رقم الهاتف يجب ان يكون 11رقم'), only_int])
     home_number = models.CharField(max_length= 12, validators= [validators.MinLengthValidator(7, 'رقم هاتف المنزل يجب ان يكون 7 ارقام'), only_int])
-    teacher = models.ForeignKey(Teacher, related_name="student_teacher" ,on_delete=models.PROTECT)
+    teacher = models.ForeignKey(Teacher, related_name="student_teacher" ,on_delete=models.PROTECT, blank= True, null= True)
     class Meta:
         unique_together = ['n_id', 'phone']
     def __str__(self):

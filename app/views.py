@@ -73,3 +73,6 @@ class MainView(LoginRequiredMixin, View):
 
 def _404_not_found(request):
     return render(request, '404.html',)
+
+def developer_details(request):
+    return render(request, 'developer_detail.html')

@@ -1,7 +1,7 @@
 from pathlib import Path
 import os
-from configurations import Configuration
-from configurations import values
+from configurations import Configuration # type: ignore
+from configurations import values # type: ignore
 # import dj_database_url
 
 
@@ -36,13 +36,13 @@ class Dev(Configuration):
         'django.contrib.staticfiles',
         'crispy_forms',
         'crispy_bootstrap5',
-        'debug_toolbar',
+        # 'debug_toolbar',
         'django_filters'
     ]
 
     MIDDLEWARE = [
         # debugging toolbar
-        'debug_toolbar.middleware.DebugToolbarMiddleware',
+        # 'debug_toolbar.middleware.DebugToolbarMiddleware',
         'django.middleware.security.SecurityMiddleware',
         'django.contrib.sessions.middleware.SessionMiddleware',
         'django.middleware.common.CommonMiddleware',
@@ -79,16 +79,22 @@ class Dev(Configuration):
 
     # DATABASES = {
     #     'default': {
-    #         'ENGINE': 'django.db.backends.postgresql',
-    #         'NAME': 'eldar',
-    #         'USER': 'postgres',
-    #         'PASSWORD': '123456',
-    #         'HOST': 'localhost',
-    #         'PORT': '5432'
+            # 'ENGINE': 'django.db.backends.postgresql',
+            # 'NAME': 'eldar',
+            # 'USER': 'postgres',
+            # 'PASSWORD': '123456',
+            # 'HOST': 'localhost',
+            # 'PORT': '5432'
     #     }
     # }
     DATABASES = values.DatabaseURLValue(f'postgres://postgres:123456@localhost:5432/eldar')  
-    # postgres://USER:PASSWORD@HOST:PORT/NAME
+    #                                     postgres://USER:PASSWORD@HOST:PORT/NAME
+    # DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
+    # }
+    #   }
 
 
     # Password validation
@@ -115,8 +121,8 @@ class Dev(Configuration):
 
     LANGUAGE_CODE = 'en-us'
 
-    TIME_ZONE = 'UTC'
-
+    TIME_ZONE = 'Etc/GMT-2'
+    USE_L10N = True
     USE_I18N = True
 
     USE_TZ = True

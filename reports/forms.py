@@ -77,10 +77,6 @@ class StudentReporterCreateForm(forms.ModelForm):
             session_report = init['session_report']# type: ignore
         except:
             session_report=False
-        
-        
-        print('session_report', session_report)
-        print('pk', init)
         super(StudentReporterCreateForm, self).__init__(*args,**kwargs)
         if session_report:
             session_rep = session_report.pk # type: ignore
