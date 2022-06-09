@@ -128,6 +128,7 @@ class StudentReportDetailView(LoginRequiredMixin, View):
 
 from app.models import StudentSessions
 from app.functions import check_suc_url
+from reports.filters import StudentReporterFilter
 class StudentAttendSessionView(LoginRequiredMixin,View):
     template = 'reports/session/student_attend_session.html'
     form = StudentReporterCreateForm
@@ -178,23 +179,32 @@ class StudentReportView(LoginRequiredMixin, View):
     type = 'طالب'
     def get(self, request, *args, **kwargs):
         student = kwargs.pop('student', None)
-        next = kwargs.pop('next', None)
+        next_url = kwargs.pop('next', None)
         student_report = StudentReporter.objects.filter(student=student).select_related(
             'student', 'session_report', 'session_report__session', 'session_report__session__name',
             'session_report__session__name', 'session_report__session__teacher').order_by(
                 '-session_report__session_date'
                 )
+        myfilter = StudentReporterFilter(request.GET, initial= {"student":student}, queryset=student_report)
+        student_report = myfilter.qs
         success_url = reverse_lazy('reports:student_report', kwargs={'student':student})
-        success_url = check_suc_url(next, success_url)
+        success_url = check_suc_url(next_url, success_url)
+        
         ctx={
             'student_report': student_report,
             'suc_url': success_url,
             'type':self.type,
+            'filter': myfilter
         }
         return render(request, self.template, ctx)
+
+
+
 '''
 CRUD Views
 '''
+
+
 # Session report CRUD
 
 class SessionReporterCreate(LoginRequiredMixin, CRUDCreate):
@@ -204,9 +214,11 @@ class SessionReporterCreate(LoginRequiredMixin, CRUDCreate):
     form = SessionReporterForm
 
     def post(self, request, session,next=''):
+        
         form = self.form(request.POST)
         self.success_url = check_suc_url(next, self.success_url)
         if not form.is_valid():
+            
             ctx = {
                 'form': form,
                 'suc_url': self.success_url,
@@ -233,6 +245,7 @@ class SessionReporterDelete(LoginRequiredMixin, CRUDDelete):
     
 
 
+
 # Student Report CRUD Views
 
 
@@ -255,3 +268,5 @@ class StudentReportDeleteView(LoginRequiredMixin, CRUDDelete):
     success_url = reverse_lazy('session')
     type='تقرير طالب'
     model = StudentReporter  
+
+

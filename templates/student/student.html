@@ -29,7 +29,12 @@
         {% endcomment %}
         <td> {{student.teacher.name}}</td>
         <td>
+            {% if  student.teacher.pk%}
             <a class="btn btn-success" href="{% url 'student_session_create' student=student.pk teacher=student.teacher.pk next=request.get_full_path%}">اضافة</a>
+            {% else %}
+            <a class="btn btn-success" href="{% url 'student_session_create' student=student.pk next=request.get_full_path%}">اضافة</a>
+            {% endif %}
+
             <br>
         {% for session in  student|student_sessions%}
         {{session.session}} <a class="btn btn-danger" href="{%url 'student_session_delete' pk=session.pk next=request.get_full_path%}">حذف</a>

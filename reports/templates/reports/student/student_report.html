@@ -13,7 +13,17 @@
             اضافة تقرير للحلقة
         </button>
         <input class="btn btn-info" type="button" onclick="PrintTable('تقرير حلقة:<br>{{session}}');" value="طباعة الجدول"/>
-        
+        {% if filter %}
+        <br>
+        <div class="row">
+            <div class="col">
+                <form method="get">
+                    {{filter.form}}
+                    <button class="btn btn-primary" type="submit">بحث</button>
+                </form>
+            </div>
+        </div>
+        {% endif %}
         {%include 'parts/dialog_form.html'%}
         <hr>
         <table id="print" class="table table-striped table-bordered">
