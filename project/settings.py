@@ -36,13 +36,13 @@ class Dev(Configuration):
         'django.contrib.staticfiles',
         'crispy_forms',
         'crispy_bootstrap5',
-        # 'debug_toolbar',
+        'debug_toolbar',
         'django_filters'
     ]
 
     MIDDLEWARE = [
         # debugging toolbar
-        # 'debug_toolbar.middleware.DebugToolbarMiddleware',
+        'debug_toolbar.middleware.DebugToolbarMiddleware',
         'django.middleware.security.SecurityMiddleware',
         'django.contrib.sessions.middleware.SessionMiddleware',
         'django.middleware.common.CommonMiddleware',

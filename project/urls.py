@@ -8,7 +8,7 @@ urlpatterns = [
     path('', include('app.urls')),
     path('reports/', include('reports.urls'))
 ]
-# if settings.DEBUG:
-#     urlpatterns += [
-#         path("__debug__/", include(debug_toolbar.urls)),
-#     ]
+if settings.DEBUG:
+    urlpatterns += [
+        path("__debug__/", include(debug_toolbar.urls)),
+    ]
