@@ -7,20 +7,16 @@ SideBar
 {% endcomment %}
 
   <div id="#navbar" class="w3-sidebar w3-bar-block w3-card csidebar">
-    <h3>دار الحمد</h3>
+    <h3>دار الاحسان</h3>
     <hr>
     <a href="{%url 'index'%}" class="w3-bar-item w3-button">الصفحة الرئيسية</a>
     <a href="{%url 'days'%}" class="w3-bar-item w3-button">الجدول الاسبوعى</a>
-    {%if user.is_superuser%}
-      <a href="/admin" class="w3-bar-item w3-button">لوحة المسؤول</a>
-    {% endif %}
     <button class="w3-button w3-block w3-left-align" onclick="myAccFunc('demoAcc')">
       الموظفين <img src="{%static 'icons/angle-arrow-down.png'%}" style="width:10px; color:aliceblue">
     </button>
     <div id="demoAcc" class="w3-hide w3-white w3-card">
       <a href="{%url 'manager'%}" class="w3-bar-item w3-button">عرض الموظفين</a>
       <a href="{%url 'manager_create'%}" class="w3-bar-item w3-button">اضافة موظف</a>
-      <a href="#" class="w3-bar-item w3-button">الدخول الخروج</a>
     </div>
     <button class="w3-button w3-block w3-left-align" onclick="myAccFunc('demoAcc2')">
       المحفظين <img src="{%static 'icons/angle-arrow-down.png'%}" style="width:10px;">
@@ -28,7 +24,6 @@ SideBar
     <div id="demoAcc2" class="w3-hide w3-white w3-card">
       <a href="{%url 'teacher'%}" class="w3-bar-item w3-button">عرض المحفظين</a>
       <a href="{%url 'teacher_create'%}" class="w3-bar-item w3-button">اضافة محفظ</a>
-      <a href="#" class="w3-bar-item w3-button">الدخول الخروج</a>
     </div>
     <button class="w3-button w3-block w3-left-align" onclick="myAccFunc('demoAcc3')">
       الحلقات <img src="{%static 'icons/angle-arrow-down.png'%}" style="width:10px;">
@@ -36,7 +31,6 @@ SideBar
     <div id="demoAcc3" class="w3-hide w3-white w3-card">
       <a href="{%url 'session'%}" class="w3-bar-item w3-button">عرض الحلقات</a>
       <a href="{%url 'session_create'%}" class="w3-bar-item w3-button">اضافة حلقة</a>
-      <a href="#" class="w3-bar-item w3-button">الدخول الخروج</a>
     </div>
     <button class="w3-button w3-block w3-left-align" onclick="myAccFunc('demoAcc4')">
       الطلاب <img src="{%static 'icons/angle-arrow-down.png'%}" style="width:10px;">
@@ -44,17 +38,8 @@ SideBar
     <div id="demoAcc4" class="w3-hide w3-white w3-card">
       <a href="{%url 'student'%}" class="w3-bar-item w3-button">عرض الطلاب</a>
       <a href="{%url 'student_create'%}" class="w3-bar-item w3-button">اضافة طالب</a>
-      <a href="#" class="w3-bar-item w3-button">الدخول الخروج</a>
     </div>
     <a href="{%url 'room'%}" class="w3-bar-item w3-button">الغرف</a>
-    <button class="w3-button w3-block w3-left-align" onclick="myAccFunc('demoAcc5')">
-      الدخول الخروج <img src="{%static 'icons/angle-arrow-down.png'%}" style="width:10px;">
-    </button>
-    <div id="demoAcc5" class="w3-hide w3-white w3-card">
-      <a href="{%url 'student'%}" class="w3-bar-item w3-button">الموظفين</a>
-      <a href="{%url 'student_create'%}" class="w3-bar-item w3-button">المحفظين</a>
-      <a href="#" class="w3-bar-item w3-button">الطلاب</a>
-    </div>
     <button class="w3-button w3-block w3-left-align" onclick="myAccFunc('demoAcc6')">
       تقارير الحلقات <img src="{%static 'icons/angle-arrow-down.png'%}" style="width:10px;">
     </button>
@@ -73,7 +58,7 @@ SideBar
   {% endcomment %}
   
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="background-color:rgb(216, 216, 216); margin-right:12%;"dir="ltr">
-    <a class="navbar-brand" href="#" dir="rtl">مرحباً {{user}}</a>
+    <a class="navbar-brand" href="#" dir="rtl">مرحباً</a>
     <div class=" navbar-collapse" id="navbarTogglerDemo02">
       <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
 
