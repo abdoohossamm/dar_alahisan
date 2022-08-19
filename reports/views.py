@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.shortcuts import render, redirect, get_object_or_404
 from reports.models import SessionReporter,StudentReporter
-from app.models import Session
+from app.models import Session, Student
 from django.contrib.auth.mixins import LoginRequiredMixin
 from app.generic_views import CRUDCreate,CRUDUpdate, CRUDDelete
 from django.urls import reverse_lazy
@@ -11,7 +11,7 @@ from reports.filters import SessionReporterFilter
 from django.db.models import Q
 from django.core.paginator import Paginator
 from app.functions import ITEM_PER_PAGE
-
+from django.http import HttpResponseRedirect
 '''
 functions to help in views
 '''
@@ -129,6 +129,7 @@ class StudentReportDetailView(LoginRequiredMixin, View):
 from app.models import StudentSessions
 from app.functions import check_suc_url
 from reports.filters import StudentReporterFilter
+from reports.forms import StudentAttendForm
 class StudentAttendSessionView(LoginRequiredMixin,View):
     template = 'reports/session/student_attend_session.html'
     form = StudentReporterCreateForm
@@ -139,7 +140,7 @@ class StudentAttendSessionView(LoginRequiredMixin,View):
                                         pk=session_report
                                         )
         students_report = StudentReporter.objects.filter(session_report=session_report).select_related(
-            'session_report', 'student').order_by('student__name')
+            'session_report', 'student').order_by('pk')
         form = self.form(initial= {'session_report':session_report})
         success_url = reverse_lazy('reports:student_session_attend', kwargs={'session_report':session_report})
         ctx={
@@ -156,23 +157,55 @@ class StudentAttendSessionView(LoginRequiredMixin,View):
             'session', 'session__teacher', 'session__day', 'session__name'),
                                         pk=session_report
                                         )
-        form = self.form(request.POST, initial= {'session_report':session_report})   
-        students_report = StudentReporter.objects.filter(session_report=session_report)
-        
-        if not form.is_valid():
-            ctx = {
-                
-            'students_reports': students_report,
-            'session_report': session_report,
-            'suc_url': success_url,
-            'form': form,
-            'type':self.type,
-
-                }
-            return render(request, self.template, ctx)
-        form.save()
+        students_report = StudentReporter.objects.filter(session_report=session_report).select_related(
+            'session_report', 'student').order_by('pk')
+        # POST method conditions
+        if 'attend_status' in request.POST: # Change attend status form
+            instance_data = StudentReporter.objects.get(pk=request.POST['student_report'])
+            instance_data.attend = request.POST['attend_status']
+            instance_data.save()
+        elif 'paybox' or 'uncheck' in request.POST: # Change pay status form
+            instance_data = StudentReporter.objects.get(pk=request.POST['student_report'])
+            if request.POST.get('paybox'):
+                paybox = int(request.POST['paybox'])
+                if paybox == 10:
+                    instance_data.money = 10
+            if request.POST.get('uncheck'):
+                print('done')
+                instance_data.money = None
+            instance_data.save()
+        else: # Add student Form
+            form = self.form(request.POST, initial= {'session_report':session_report})
+            if not form.is_valid():
+                ctx = {
+                    
+                'students_reports': students_report,
+                'session_report': session_report,
+                'suc_url': success_url,
+                'form': form,
+                'type':self.type,
+                    }
+                return render(request, self.template, ctx)
+            form.save()
         return redirect(success_url)
 
+def change_student_attend_status(request, pk, change=0, next=''):
+    print('function')
+    model = StudentReporter
+    
+    # instance_data = get_object_or_404(model, pk=pk)
+    instance_data = StudentReporter.objects.get(pk=pk)
+    if change == 0:
+        instance_data.update(attend='حضور')
+        instance_data.save()
+        print('done')
+    elif change == 1:
+        instance_data.attend = 'غياب'
+        instance_data.save()
+        print('done')
+        
+    return HttpResponseRedirect(next)
+    
 class StudentReportView(LoginRequiredMixin, View):
     template = 'reports/student/student_report.html'
     form = StudentReporterCreateForm
@@ -192,11 +225,14 @@ class StudentReportView(LoginRequiredMixin, View):
         
         ctx={
             'student_report': student_report,
+            'student': Student.objects.get(pk=student),
             'suc_url': success_url,
             'type':self.type,
             'filter': myfilter
         }
         return render(request, self.template, ctx)
+
+
 
 
 

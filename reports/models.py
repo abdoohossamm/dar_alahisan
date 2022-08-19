@@ -21,6 +21,7 @@ class StudentReporter(models.Model):
     session_report = models.ForeignKey(SessionReporter, related_name='student_session_report', on_delete=models.CASCADE)
     attend = models.CharField(max_length=15, default='لم يتم التحديد', choices=AttendanceChoice, null=True)
     money = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    
     class Meta:
         unique_together = ['student', 'session_report']
     def __str__(self):

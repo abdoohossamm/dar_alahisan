@@ -1,12 +1,12 @@
 {%extends 'parts/base.html' %}
 {%load poll_extras%}
 {%load reports_extras%}
-{%block title%} تقارير الطالب {{student_report.student}} {%endblock title%}
+{%block title%} تقارير الطالب {{student}} {%endblock title%}
 {%block body%}    
 <div>
         <ol class="breadcrumb my-4">
             <li class="breadcrumb-item active"><h1>
-                تقارير الطالب {{student_report.student}}
+                تقارير الطالب {{student}}
             </h1></li>
         </ol>
         <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#example-modal">

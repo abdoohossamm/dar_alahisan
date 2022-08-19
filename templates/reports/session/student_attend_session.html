@@ -1,0 +1,64 @@
+{%extends 'parts/detail_temp.html' %}
+{%load poll_extras%}
+{%load reports_extras%}
+
+{% block pagename %}
+تقرير الطلاب فى حلقة {{session_report.session}} <br>
+تاريخ {{session_report.session_date|date:'d/m/Y'}}
+{% endblock pagename %}
+{%block title%} {%endblock title%}
+{% block thead %}
+  <tr>
+    <th scope="col">كود الطالب</th>
+    <th scope="col">اسم الطالب</th>
+    <th scope="col">حالة الحضور</th>
+    <th scope="col">الدفع</th>
+    <th class="haslink" scope="col">تعديل</th>
+    <th class="haslink" scope="col">حذف التقرير</th>
+  </tr>
+{% endblock thead %}
+{% block tbody %}
+{% for student_report in students_reports %}
+<tr>
+        <td>
+            <p style="border: 1px solid transparent; padding: 0.53rem 0.75rem;">{{student_report.student.pk}}</p>
+        </td>
+        <td>
+            <p style="border: 1px solid transparent; padding: 0.53rem 0.75rem;">{{student_report.student.name}}</p>
+        </td>
+        <td>
+            <form id="attendForm_{{student_report.id}}" method="POST" novalidate>
+                {%csrf_token%}
+                <input type="hidden" name="student_report" value="{{student_report.id}}" />
+                <select name="attend_status" onchange="attendForm_{{student_report.id}}.submit()" class="form-control" id="id_attend">
+                    <option value="لم يتم التحديد" {%if student_report.attend == 'لم يتم التحديد'%} selected{%endif%}>لم يتم التحديد</option>
+                    <option value="حضور" {%if student_report.attend == 'حضور'%} selected{%endif%}>حضور</option>
+                    <option value="غياب" {%if student_report.attend == 'غياب'%} selected{%endif%}>غياب</option>
+                </select>
+            </form>
+        </td>
+
+        <td>
+            <form id="payform_{{student_report.id}}" method="POST" novalidate>
+                {%csrf_token%}
+                <input type="hidden" name="student_report" value="{{student_report.id}}" />
+                {% if student_report.money%}
+                <input class="form-check-input" type ="checkbox" name="paybox" value = "0" onchange="payform_{{student_report.id}}.submit()"  checked></input>
+                <input type="hidden" name="uncheck" value="0" />
+                {%elif student_report.money == 0 or not student_report.money%}
+                <input class="form-check-input" type ="checkbox" name="paybox" value = "10" onchange="payform_{{student_report.id}}.submit()"></input>
+                
+                {% endif %}
+                
+            </form>
+        </td>                    
+        <td class="haslink"> 
+            <a class="btn btn-warning" href="{%url 'reports:student_report_update' pk=student_report.pk next=request.get_full_path%}">تعديل</a>
+        </td>                    
+        <td class="haslink"> 
+            <a class="btn btn-danger" href="">حذف</a>
+        </td>        
+    </tr>
+    {% endfor %}
+{% endblock tbody %}
+

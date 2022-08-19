@@ -99,3 +99,11 @@ class StudentReporterUpdateForm(forms.ModelForm):
             'attend': ('الحضور'),
             'money': ('الدقع'),
         }
+
+class StudentAttendForm(forms.ModelForm):
+    class Meta:
+        model = StudentReporter
+        fields =('attend',)
+        labels = {
+            'attend': ('حالة الحضور')
+        }

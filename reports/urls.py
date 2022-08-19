@@ -33,5 +33,5 @@ urlpatterns = [
     
     path('student_report_delete/<int:pk>/delete/next=<path:next>/', views.StudentReportDeleteView.as_view(), name='student_report_delete'),
     path('student_report_delete/<int:pk>/delete/', views.StudentReportDeleteView.as_view(), name='student_report_delete'),
-
+    path('student_attend/<int:session_report>/<int:pk>/<int:change>/<path:next>/', views.change_student_attend_status, name="student_attend_status")
 ]
