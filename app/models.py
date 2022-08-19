@@ -11,8 +11,10 @@ class Manager(models.Model):
     name = models.CharField(max_length=150, verbose_name='اسم الموظف')
     n_id = models.CharField(max_length= 14, verbose_name='الرقم القومى', validators= [validators.MinLengthValidator(14, 'الرقم القومى يجب ان يكون 14 رقم'), only_int])
     address= models.CharField(max_length= 150)
-    phone= models.CharField(max_length= 12, validators= [validators.MinLengthValidator(11, 'رقم الهاتف يجب ان يكون 11رقم'), only_int])
-    home_number = models.CharField(max_length= 12, validators= [validators.MinLengthValidator(7, 'رقم هاتف المنزل يجب ان يكون 7 ارقام'), only_int])
+    phone= models.CharField(max_length= 12, validators= [validators.MinLengthValidator(11,
+                                        'رقم الهاتف يجب ان يكون 11رقم'),
+                                            only_int])
+    home_number = models.CharField(max_length= 12)
     salary =models.DecimalField(max_digits=10, decimal_places=2, blank= True, null=True)
     class Meta:
         unique_together = ['n_id', 'phone']
@@ -23,12 +25,12 @@ class Manager(models.Model):
     
 class Teacher(models.Model):
     name = models.CharField(max_length=150)
-    n_id = models.CharField(max_length= 14, validators= [validators.MinLengthValidator(14, 'الرقم القومى يجب ان يكون 14 رقم'), only_int])
+    n_id = models.CharField(max_length= 14)
     address= models.CharField(max_length= 150)
     phone= models.CharField(max_length= 12, validators= [validators.MinLengthValidator(11,
                                         'رقم الهاتف يجب ان يكون 11رقم'),
                                             only_int])
-    home_number = models.CharField(max_length= 12, validators= [validators.MinLengthValidator(7, 'رقم هاتف المنزل يجب ان يكون 7 ارقام'), only_int])
+    home_number = models.CharField(max_length= 12)
     class Meta:
         unique_together = ['n_id', 'phone']
     def __str__(self):
@@ -60,10 +62,10 @@ class Session(models.Model):
     
 class Student(models.Model):
     name = models.CharField(max_length=150)
-    n_id = models.CharField(max_length= 14, validators= [validators.MinLengthValidator(14, 'الرقم القومى يجب ان يكون 14 رقم'), only_int])
+    n_id = models.CharField(max_length= 14)
     address= models.CharField(max_length= 150)
     phone= models.CharField(max_length= 12, validators= [validators.MinLengthValidator(11, 'رقم الهاتف يجب ان يكون 11رقم'), only_int])
-    home_number = models.CharField(max_length= 12, validators= [validators.MinLengthValidator(7, 'رقم هاتف المنزل يجب ان يكون 7 ارقام'), only_int])
+    home_number = models.CharField(max_length= 12)
     teacher = models.ForeignKey(Teacher, related_name="student_teacher" ,on_delete=models.PROTECT, blank= True, null= True)
     class Meta:
         unique_together = ['n_id', 'phone']
