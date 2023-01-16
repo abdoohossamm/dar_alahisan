@@ -48,13 +48,10 @@ class SessionReporterForm(forms.ModelForm):
         session_date = cleaned_data.get("session_date")
         print('session date', session_date)
         session = cleaned_data.get("session")
-        if SessionReporter.objects.filter(session=session, session_date=session_date).exists():
-            raise forms.ValidationError(_(f"يوجد تقرير لنفس الحلقة بنفس التاريخ, لا يمكن اضافة واحدة اخرى ويمكن التعديل عليها")) # type: ignore
         day_date = day_of_date(session_date)  # type: ignore
         if day_date != str(session.day):    # type: ignore
-            self.add_error('session_date', f"التاريخ '{session_date}' غير مطابق ليوم الحلقة '{session.day}'") # type: ignore
-            raise forms.ValidationError(_(f"التاريخ '{session_date}' غير مطابق ليوم الحلقة '{session.day}'")) # type: ignore
-
+            self.add_error('session_date', f"التاريخ '{session_date}' غير مطابق ليوم الحلقة '{session.day}'")
+            raise forms.ValidationError(_(f"التاريخ '{session_date}' غير مطابق ليوم الحلقة '{session.day}'"))
         else:
             return cleaned_data
 

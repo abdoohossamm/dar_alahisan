@@ -1,3 +1,4 @@
+from django.db import IntegrityError
 from django.shortcuts import render
 from django.shortcuts import render, redirect, get_object_or_404
 from reports.models import SessionReporter,StudentReporter
@@ -11,7 +12,10 @@ from reports.filters import SessionReporterFilter
 from django.db.models import Q
 from django.core.paginator import Paginator
 from app.functions import ITEM_PER_PAGE
+from django.utils.translation import gettext_lazy as _
 from django.http import HttpResponseRedirect
+from django import forms
+
 '''
 functions to help in views
 '''
@@ -119,7 +123,10 @@ class StudentReportDetailView(LoginRequiredMixin, View):
                 'form': form,
                 }
             return render(request, self.template, ctx)
-        form.save()
+        try:
+            form.save()
+        except IntegrityError as e:
+            raise forms.ValidationError(_(f"يوجد تقرير لنفس الحلقة بنفس التاريخ, لا يمكن اضافة واحدة اخرى ويمكن التعديل عليها"))
         create_student_for_session_report(form, session)
         return redirect(success_url)
 
