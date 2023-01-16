@@ -35,14 +35,20 @@ class Teacher(models.Model):
         unique_together = ['n_id', 'phone']
     def __str__(self):
         return self.name
-    
-    
-class Room(models.Model):
+
+class Branch(models.Model):
     name = models.CharField(max_length=150, unique=True)
+
     def __str__(self):
         return self.name
-    
-    
+
+class Room(models.Model):
+    name = models.CharField(max_length=150, unique=True)
+    branch = models.ForeignKey(Branch, related_name='branch_room', on_delete=models.PROTECT)
+    def __str__(self):
+        return self.name
+
+
 class Day(models.Model):
     day = models.CharField(max_length=15, unique=True)
     def __str__(self):
