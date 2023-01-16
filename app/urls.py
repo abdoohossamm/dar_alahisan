@@ -2,6 +2,7 @@ from django.urls import path,include
 from . import views
 from .main_views import manager_views as mv
 from .main_views import room_views as rv
+from .main_views import branch_views as bv
 from .main_views import session_views as sv
 from .main_views import teacher_views as tv
 from .main_views import student_views as stv
@@ -14,6 +15,8 @@ urlpatterns = [
     path('days/', views.DaysView.as_view(), name='days'),
     path('manager/', mv.ManagerDetailsView.as_view(), name='manager'),
     path('room/', rv.RoomDetailsView.as_view(), name='room'),
+    path('branch/', bv.BranchView.as_view(), name='branch'),
+    path('branch/<int:branch>', bv.BranchSessionView.as_view(), name='branch_session'),
     path('student/', stv.StudentView.as_view(), name='student'),
     path('student/<int:pk>/', stv.StudentDetailsView.as_view(), name='student_details'),
     path('session/', sv.SessionView.as_view(), name='session'),
@@ -40,7 +43,13 @@ urlpatterns += [
     path('room/<int:pk>/update/', rv.RoomUpdate.as_view(), name='room_update'),
     path('room/<int:pk>/update/?next=<path:next>/', rv.RoomUpdate.as_view(), name='room_update'),
     path('room/<int:pk>/delete/', rv.RoomDelete.as_view(), name='room_delete'),
-    path('room/<int:pk>/delete/?next=<path:next>/', rv.RoomDelete.as_view(), name='room_delete'),    
+    path('room/<int:pk>/delete/?next=<path:next>/', rv.RoomDelete.as_view(), name='room_delete'),
+    # branch CRUD
+    path('branch/create/', bv.BranchCreate.as_view(), name='branch_create'),
+    path('branch/<int:pk>/update/', bv.BranchUpdate.as_view(), name='branch_update'),
+    path('branch/<int:pk>/update/?next=<path:next>/', bv.BranchUpdate.as_view(), name='branch_update'),
+    path('branch/<int:pk>/delete/', bv.BranchDelete.as_view(), name='branch_delete'),
+    path('branch/<int:pk>/delete/?next=<path:next>/', bv.BranchDelete.as_view(), name='branch_delete'),
     # student CRUD
     path('student/create/', stv.StudentCreate.as_view(), name='student_create'),
     path('student/<int:pk>/update/', stv.StudentUpdate.as_view(), name='student_update'),
