@@ -1,0 +1,36 @@
+{%extends 'parts/base.html' %}
+
+{%block title%}الفروع {%endblock title%}
+{%block body%}
+<div  >
+        <ol class="breadcrumb my-4">
+            <li class="breadcrumb-item active"><h1>الفروع</h1></li>
+        </ol>
+        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#example-modal">
+            اضافة فرع
+        </button>
+        {%include 'parts/dialog_form.html'%}
+        <table class="table">
+            <thead class="thead-white">
+            <tr style="background-color: steelblue;">
+                <th scope="col">كود الفرع</th>
+                <th scope="col">اسم الفرع</th>
+                <th scope="col">تعديل</th>
+                <th scope="col">الحذف</th>
+            </tr>
+            </thead>
+            <tbody>
+                {% for branch in branches %}
+                <tr>
+                    <td>{{branch.pk}}</td>
+                    <td><a href="{%url 'branch_session' branch.pk%}">{{branch}}</a></td>
+                    <td> <a class="btn btn-warning" href="{%url 'branch_update' branch.pk%}">التعديل</a></td>
+                    <td> <a class="btn btn-danger" href="{%url 'branch_delete' branch.pk%}">حذف</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+{%endblock body%}

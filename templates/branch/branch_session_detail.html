@@ -1,0 +1,44 @@
+{%extends 'parts/detail_temp.html' %}
+{%load poll_extras%}
+
+{% block pagename %}
+حلقات فرع {{ branch.name }}
+{% endblock pagename %}
+{% block print_title %}حلقات فرع {{ branch.name }}{% endblock print_title %}
+{%block title%} الحلقات {%endblock title%}
+{% block thead %}
+
+    <tr style="background-color: steelblue;">
+        <th scope="col">الكود</th>
+        <th scope="col">اليوم</th>
+        <th scope="col">الساعة</th>
+        <th scope="col">المحفظ</th>
+        <th scope="col">اسم الغرفة</th>
+        <th scope="col">عدد الطلاب</th>
+        <th class="haslink" scope="col">عرض التقارير</th>
+        <th class="haslink" scope="col">عرض الطلاب</th>
+        <th class="haslink" scope="col">اضافة طالب</th>
+        <th class="haslink" scope="col">التعديل</th>
+        <th class="haslink" scope="col">الحذف</th>
+    </tr>
+{% endblock thead %}
+{% block tbody %}
+
+    {% for session in page_obj %}
+        <tr>
+            <td>{{session.pk}}</td>
+            <td>{{session.day}}</td>
+            <td> {{session.time|time:"H:i"}}</td>
+            <td> {{session.teacher.name}}</td>
+            <td>{{session.name}}</td>
+            <td> {{session|students_number}}</td>
+            <td class="haslink"> <a class="btn btn-primary" href="{%url 'reports:session_report' session_pk=session.pk%}">عرض التقارير</a></td>
+            <td class="haslink"> <a class="btn btn-primary" href="{%url 'students_in_session' session.pk%}">عرض الطلاب</a></td>
+            <td class="haslink"> <a class="btn btn-success" href="{%url 'student_session_create' session=session.pk next=request.get_full_path %}">اضافة</a></td>
+
+            <td class="haslink"> <a class="btn btn-warning" href="{%url 'session_update' session.pk%}">تعديل</a></td>
+            <td class="haslink"> <a class="btn btn-danger" href="{%url 'session_delete' session.pk%}">حذف</a></td>
+        </tr>
+    {% endfor %}
+{% endblock tbody %}
+
