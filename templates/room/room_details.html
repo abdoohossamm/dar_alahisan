@@ -15,6 +15,7 @@
             <tr style="background-color: steelblue;">
                 <th scope="col">كود الغرفة</th>
                 <th scope="col">اسم الغرفة</th>
+                <th scope="col">اسم الفرع</th>
                 <th scope="col">تعديل</th>
                 <th scope="col">الحذف</th>
             </tr>
@@ -24,6 +25,7 @@
                 <tr>
                     <td>{{room.pk}}</td>
                     <td>{{room}}</td>
+                    <td>{{room.branch}}</td>
                     <td> <a class="btn btn-warning" href="{%url 'room_update' room.pk%}">التعديل</a></td>
                     <td> <a class="btn btn-danger" href="{%url 'room_delete' room.pk%}">حذف</a></td>
                 </tr>
