@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from .models import Manager, Room, Teacher, Session, Student, StudentSessions
+from .models import Manager, Room, Teacher, Session, Student, StudentSessions, Branch
 from django import forms
 
 
@@ -37,8 +37,19 @@ class RoomForm(ModelForm):
         model = Room
         fields = '__all__'
         labels = {
-            'name': ('اسم الغرفة'),
+            'name': 'اسم الغرفة',
+            'branch': 'الفرع',
             }
+
+
+class BranchForm(ModelForm):
+    class Meta:
+        model = Branch
+        fields = '__all__'
+        labels = {
+            'name': 'اسم الفرع '
+            }
+
 
 class SessionForm(ModelForm):
     class Meta:
