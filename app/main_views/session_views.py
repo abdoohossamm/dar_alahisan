@@ -21,7 +21,7 @@ def search_model(request, item:int=10):
     strval =  request.GET.get("search", False)
     page_number = request.GET.get('page')
     if strval :
-        query = Q(day__day__icontains=strval) 
+        query = Q(day__day__icontains=strval)
         query.add(Q(pk__icontains=strval), Q.OR)
         query.add(Q(time__icontains=strval), Q.OR)
         query.add(Q(name__name__icontains=strval), Q.OR)
@@ -34,18 +34,28 @@ def search_model(request, item:int=10):
             'page_obj': session,
             'filter': myfilter,
         }
-    else :
+    elif request.GET.get("day", False) or request.GET.get("time", False) or request.GET.get("name", False) or request.GET.get("teacher", False) or request.GET.get("branch", False):
         session = Session.objects.all().select_related('name', 'teacher','day').order_by('day')
-    myfilter = SessionFilter(request.GET, queryset=session)
-    session = myfilter.qs
-    paginator = Paginator(session, item) # Show 25 contacts per page.
-    page_obj = paginator.get_page(page_number)
-    return {
-            'search': strval,
-            'sessions': session,
-            'page_obj': page_obj,
-            'filter': myfilter,
-            }
+        myfilter = SessionFilter(request.GET, queryset=session)
+        session = myfilter.qs
+        return {
+                'search': strval,
+                'sessions': session,
+                'page_obj': session,
+                'filter': myfilter,
+                }
+    else:
+        session = Session.objects.all().select_related('name', 'teacher','day').order_by('day')
+        myfilter = SessionFilter(request.GET, queryset=session)
+        session = myfilter.qs
+        paginator = Paginator(session, item) # Show 25 contacts per page.
+        page_obj = paginator.get_page(page_number)
+        return {
+                'search': strval,
+                'sessions': session,
+                'page_obj': page_obj,
+                'filter': myfilter,
+                }
 
 '''
 Session views
